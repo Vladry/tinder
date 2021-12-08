@@ -1,4 +1,4 @@
-package vlad.dao;
+package tinder.dao;
 
 import java.util.List;
 

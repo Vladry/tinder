@@ -1,28 +1,22 @@
-package vlad.dao;
+package tinder.dao;
 
 public class User {
     private Long id;
     private String name;
     private int age;
-    private Long groupId;
-    private String login;
+    private String email;
     private String password;
 
-    public User(Long id, String name, int age, Long groupId, String login, String password) {
+    public User(Long id, String email, String password){
         this.id = id;
-        this.name = name;
-        this.age = age;
-        this.groupId = groupId;
-        this.login = login;
+        this.email = email;
         this.password = password;
     }
 
-    public User(String name, int age, Long groupId, String login, String password) {
+    public User(Long id, String email, String password, String name, int age) {
+        this(id, email, password);
         this.name = name;
         this.age = age;
-        this.groupId = groupId;
-        this.login = login;
-        this.password = password;
     }
 
     public Long getId() {
@@ -49,20 +43,12 @@ public class User {
         this.age = age;
     }
 
-    public Long getGroupId() {
-        return groupId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setGroupId(Long groupId) {
-        this.groupId = groupId;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -79,9 +65,8 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", age=" + age +
-                ", groupId=" + groupId +
-                ", login=" + login +
-                ", pass" + password +
+                ", email=" + email +
+                ", password" + password +
                 '}';
     }
 }

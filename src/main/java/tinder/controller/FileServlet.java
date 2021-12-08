@@ -1,4 +1,4 @@
-package vlad.controller;
+package tinder.controller;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;

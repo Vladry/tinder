@@ -1,4 +1,4 @@
-package vlad.controller;
+package tinder.controller;
 
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;

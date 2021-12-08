@@ -1,8 +1,8 @@
-package vlad;
+package tinder;
 
-import vlad.controller.*;
-import vlad.dao.UserDao;
-import vlad.dao.UserJdbcDao;
+import tinder.controller.*;
+import tinder.dao.UserDao;
+import tinder.dao.UserJdbcDao;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.FilterHolder;
@@ -29,22 +29,15 @@ public class JettyRun {
         SessionHandler sessionHandler = new SessionHandler();
         handler.setSessionHandler(sessionHandler);
 
-        handler.addServlet(new ServletHolder(new HelloServlet(templateEngine)), "/hello");
-        handler.addServlet(new ServletHolder(new LoginServlet(userDao, templateEngine)), "/");
+//        handler.addFilter(new FilterHolder(new LoginFilter()), "/*", EnumSet.of(DispatcherType.REQUEST));
         handler.addServlet(new ServletHolder(new FileServlet()), "/assets/*");
-        handler.addServlet(new ServletHolder(new AboutServlet(templateEngine)), "/about");
-        handler.addServlet(new ServletHolder(new TeamServlet(templateEngine)), "/team");
-        handler.addFilter(new FilterHolder(new LoginFilter()), "/*", EnumSet.of(DispatcherType.REQUEST));
 
-//        handler.addServlet(new ServletHolder(new UserServlet(userDao)), "/users");
-
-//        handler.addServlet(new ServletHolder(new LikeServlet(userDao)), "/liked");
-
-//        handler.addServlet(new ServletHolder(new MessageServlet(messageDao, userDao)), "/messages/*");
-//        handler.addFilter(MessageFilter.class, "/messages/*", EnumSet.of(DispatcherType.REQUEST));
-
-
-//        handler.addServlet(RedirectServlet.class, "/*");
+        handler.addServlet(new ServletHolder(new LoginServlet(userDao, templateEngine)), "/login");
+        handler.addServlet(new ServletHolder(new ChatServlet(templateEngine)), "/chat");
+        handler.addServlet(new ServletHolder(new PeopleListServlet(templateEngine)), "/people-list");
+        handler.addServlet(new ServletHolder(new LikePageServlet(templateEngine)),"/like-page");
+        handler.addServlet(new ServletHolder(new HomeServlet(templateEngine)),"/");
+        handler.addServlet(new ServletHolder(new LogOutServlet(templateEngine)), "/logout");
 
         server.setHandler(handler);
         server.start();
