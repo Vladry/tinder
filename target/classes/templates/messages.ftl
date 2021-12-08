@@ -14,8 +14,8 @@
     <link type="text/css" rel="stylesheet" href="../assets/style.css"/>
     <menu class="menu col-1 offset-1">
         <li class="menu__item"><a class="menu__ref" href="/">HOME</a></li>
-        <li class="menu__item"><a class="menu__ref" href="/like-page">LIKES</a></li>
-        <li class="menu__item"><a class="menu__ref" href="/people-list">PEOPLE-LIST</a></li>
+        <li class="menu__item"><a class="menu__ref" href="/liked">LIKES</a></li>
+        <li class="menu__item"><a class="menu__ref" href="/users">PEOPLE-LIST</a></li>
         <li class="menu__item"><a class="menu__ref" href="/logout">LOGOUT</a></li>
     </menu>
 </head>

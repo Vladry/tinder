@@ -31,7 +31,7 @@ public class LoginServlet extends HttpServlet {
         if (session != null){
             User user = (User) session.getAttribute("user");
             data.put("user", user);
-            templateEngine.render("people-list.ftl", data, resp);
+            templateEngine.render("users.ftl", data, resp);
         } else {
 
             try {
@@ -48,7 +48,7 @@ public class LoginServlet extends HttpServlet {
                session.setAttribute("user", user);
                Cookie cookie = new Cookie("sessionId", session.getId());
                resp.addCookie(cookie);
-               templateEngine.render("people-list.ftl", data, resp);
+               templateEngine.render("users.ftl", data, resp);
            } else {
                 data.put("message", "wrong email or password");
                templateEngine.render("login.ftl", data, resp);

@@ -15,8 +15,8 @@
     <div class="col-3 offset-1">
         <menu class="menu">
             <li class="menu__item"><a class="menu__ref" href="/">HOME</a></li>
-            <li class="menu__item"><a class="menu__ref" href="/like-page">LIKES</a></li>
-            <li class="menu__item"><a class="menu__ref" href="/chat">CHAT</a></li>
+            <li class="menu__item"><a class="menu__ref" href="/liked">LIKES</a></li>
+            <li class="menu__item"><a class="menu__ref" href="/messages">CHAT</a></li>
             <li class="menu__item"><a class="menu__ref" href="/logout">LOGOUT</a></li>
         </menu>
 

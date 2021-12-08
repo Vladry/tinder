@@ -5,12 +5,8 @@ import tinder.dao.UserDao;
 import tinder.dao.UserJdbcDao;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.session.SessionHandler;
-import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-
-import javax.servlet.DispatcherType;
-import java.util.EnumSet;
 
 public class JettyRun {
     public static void main(String[] args) throws Exception {
@@ -33,9 +29,9 @@ public class JettyRun {
         handler.addServlet(new ServletHolder(new FileServlet()), "/assets/*");
 
         handler.addServlet(new ServletHolder(new LoginServlet(userDao, templateEngine)), "/login");
-        handler.addServlet(new ServletHolder(new ChatServlet(templateEngine)), "/chat");
-        handler.addServlet(new ServletHolder(new PeopleListServlet(templateEngine)), "/people-list");
-        handler.addServlet(new ServletHolder(new LikePageServlet(templateEngine)),"/like-page");
+        handler.addServlet(new ServletHolder(new MessageServlet(templateEngine)), "/messages");
+        handler.addServlet(new ServletHolder(new UsersServlet(templateEngine)), "/users");
+        handler.addServlet(new ServletHolder(new LikedServlet(templateEngine)),"/liked");
         handler.addServlet(new ServletHolder(new HomeServlet(templateEngine)),"/");
         handler.addServlet(new ServletHolder(new LogOutServlet(templateEngine)), "/logout");
 

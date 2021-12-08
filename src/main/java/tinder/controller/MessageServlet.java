@@ -8,10 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 
-public class ChatServlet extends HttpServlet {
+public class MessageServlet extends HttpServlet {
     private final TemplateEngine templateEngine;
 
-    public ChatServlet(TemplateEngine templateEngine){
+    public MessageServlet(TemplateEngine templateEngine){
         this.templateEngine = templateEngine;
     }
 
@@ -22,7 +22,7 @@ public class ChatServlet extends HttpServlet {
         if (session != null){
             User user = (User) session.getAttribute("user");
             data.put("user", user);
-            templateEngine.render("chat.ftl", data, resp);
+            templateEngine.render("messages.ftl", data, resp);
         } else {
             templateEngine.render("login.ftl", data, resp);
         }

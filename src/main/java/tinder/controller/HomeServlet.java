@@ -25,7 +25,7 @@ public class HomeServlet extends HttpServlet {
             User user = (User) session.getAttribute("user");
             data.put("user", user);
             data.put("sessionId", session.getId());
-            templateEngine.render("people-list.ftl", data, resp);
+            templateEngine.render("users.ftl", data, resp);
         } else {
             templateEngine.render("login.ftl", data, resp);
         }
