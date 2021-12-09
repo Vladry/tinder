@@ -26,7 +26,7 @@
         <label for="inputEmail" class="sr-only">Email address</label>
         <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
-        <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <input name="password" type="password" id="inputPassword" class="form-control" value="r" placeholder="Password" required>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
         <p class="mt-5 mb-3 text-muted">&copy; Tinder 2021</p>
     </form>
