@@ -19,6 +19,14 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println(userDao.findAll());
+        System.out.println(userDao.findByLoginPass("1","1"));
+        System.out.println(userDao.read(2L));
+
+        System.out.println(userDao.delete(4L));
+
+        System.out.println(userDao.create(new User(4L, "7", "7","Den",15)));
+
         doPost(request, response);
     }
 

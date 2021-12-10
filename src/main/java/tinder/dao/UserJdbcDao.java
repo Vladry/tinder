@@ -1,14 +1,17 @@
 package tinder.dao;
 
 //import com.mysql.cj.jdbc.MysqlConnectionPoolDataSource;
+
 import org.postgresql.ds.PGPoolingDataSource;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserJdbcDao implements UserDao {
-//    private MysqlConnectionPoolDataSource source;
+    //    private MysqlConnectionPoolDataSource source;
     private PGPoolingDataSource source;
+    List<User> allUsers = new ArrayList<>();
 
 /*    public UserJdbcDao() {
         try {
@@ -27,84 +30,81 @@ public class UserJdbcDao implements UserDao {
 
     public UserJdbcDao() {
         source = new PGPoolingDataSource();
-        source.setServerName("ec2-44-193-111-218.compute-1.amazonaws.com");
-        source.setDatabaseName("d6bdpvuaqdavsb");
-        source.setUser("pftdgngxtooerk");
-        source.setPassword("72e03083f006bf5eb24f445f08ebf50254ff3af2f16aeaec8b2df2b08353412f");
+        source.setServerName("ec2-52-86-177-34.compute-1.amazonaws.com");
+        source.setDatabaseName("d7g10jrgsjruk4");
+        source.setUser("mtmaprkfztrfne");
+        source.setPassword("d727d367387272970efb9ca62ff523bb77695ebf5f9a7e7b83af48e216e2fb64");
         source.setMaxConnections(10);
     }
 
     @Override
     public boolean create(User user) {
         Connection connection = null;
-//        try {
-//            connection = source.getConnection();
-//            connection.setAutoCommit(false);
-//            PreparedStatement preparedStatement = connection.prepareStatement(
-//                    "INSERT INTO users.users VALUES (name = ?, age = ?, login = ?, password = ?)");
-//            //ResultSet resultSet = statement.executeQuery("SELECT * FROM users WHERE id = 3");
-//            preparedStatement.setString(1, user.getName());
-//            preparedStatement.setLong(2, user.getAge());
-//            preparedStatement.setString(4, user.getLogin());
-//            preparedStatement.setString(5, user.getPassword());
-//
-//
-//            int executionResult = preparedStatement.executeUpdate();
-//            connection.commit();
-//
-//            return executionResult > 0;
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            if (connection != null) {
-//                try {
-//                    connection.rollback();
-//                } catch (SQLException ex) {
-//                    ex.printStackTrace();
-//                }
-//            }
-//        } finally {
-//            if (connection != null) {
-//                try {
-//                    connection.close();
-//                } catch (SQLException ex) {
-//                    ex.printStackTrace();
-//                }
-//            }
-//        }
+        try {
+            connection = source.getConnection();
+            connection.setAutoCommit(false);
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "INSERT INTO \"appUsers\".\"appUsers\"(id,email,password,name,age) VALUES (?,?,?,?,?)");
+
+            preparedStatement.setLong(1, user.getId());
+            preparedStatement.setString(2, user.getEmail());
+            preparedStatement.setString(3, user.getPassword());
+            preparedStatement.setString(4, user.getName());
+            preparedStatement.setLong(5, user.getAge());
+
+            int executionResult = preparedStatement.executeUpdate();
+            connection.commit();
+
+            return executionResult > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
         return false;
     }
 
     @Override
     public User read(Long userId) {
         Connection connection = null;
-//        try {
-//            connection = source.getConnection();
-//            Statement statement = connection.createStatement();
-//            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users.users WHERE id = ?");
-//            //ResultSet resultSet = statement.executeQuery("SELECT * FROM users WHERE id = 3");
-//            preparedStatement.setLong(1, userId);
-//            ResultSet resultSet = preparedStatement.executeQuery();
-//            while(resultSet.next()) {
-//                long id = resultSet.getLong("id");
-//                String name = resultSet.getString(2);
-//                int age = resultSet.getInt("age");
-//                Long groupId = resultSet.getLong("group_id");
-//                String login = resultSet.getString("login");
-//                String password = resultSet.getString("password");
-//                return new User(id, name, age, groupId, login, password);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (connection != null) {
-//                try {
-//                    connection.close();
-//                } catch (SQLException ex) {
-//                    ex.printStackTrace();
-//                }
-//            }
-//        }
+        try {
+            connection = source.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM \"appUsers\".\"appUsers\" WHERE id = ?");
+            preparedStatement.setLong(1, userId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                long id = resultSet.getLong("id");
+                String email = resultSet.getString("email");
+                String password = resultSet.getString("password");
+                String name = resultSet.getString("name");
+                int age = resultSet.getInt("age");
+                return new User(id, email, password, name, age);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
         return null;
     }
 
@@ -115,46 +115,100 @@ public class UserJdbcDao implements UserDao {
 
     @Override
     public boolean delete(long id) {
+        Connection connection = null;
+        try {
+            connection = source.getConnection();
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement("DELETE FROM \"appUsers\".\"appUsers\" WHERE id=?");
+            preparedStatement.setLong(1, id);
+
+            int executionResult = preparedStatement.executeUpdate();
+//            connection.commit();
+
+            return executionResult > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
         return false;
     }
 
     @Override
     public List<User> findAll() {
+        Connection connection = null;
+        try {
+            connection = source.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM \"appUsers\".\"appUsers\"");
+            while (resultSet.next()) {
+                long id = resultSet.getLong("id");
+                String email = resultSet.getString("email");
+                String password = resultSet.getString("password");
+                String name = resultSet.getString("name");
+                int age = resultSet.getInt("age");
+                allUsers.add(new User(id, email, password, name, age));
+//                System.out.printf("%d \t %s\t %s\t %s\t %d\n",id, email, password, name, age);
+            }
+            return allUsers;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
         return null;
     }
+
     @Override
     public User findByLoginPass(String loginUser, String passwordUser) {
         Connection connection = null;
-//        try {
-//            connection = source.getConnection();
-//            Statement statement = connection.createStatement();
-//            PreparedStatement preparedStatement = connection.prepareStatement(
-//                    "SELECT * FROM users.users WHERE login=? AND password=?");
-//            //ResultSet resultSet = statement.executeQuery("SELECT * FROM users WHERE id = 3");
-//            preparedStatement.setString(1, loginUser);
-//            preparedStatement.setString(2, passwordUser);
-//
-//            ResultSet resultSet = preparedStatement.executeQuery();
-//            while(resultSet.next()) {
-//                long id = resultSet.getLong("id");
-//                String name = resultSet.getString(2);
-//                int age = resultSet.getInt("age");
-//                Long groupId = resultSet.getLong("group_id");
-//                String login = resultSet.getString("login");
-//                String password = resultSet.getString("password");
-//                return new User(id, name, age, groupId, login, password);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (connection != null) {
-//                try {
-//                    connection.close();
-//                } catch (SQLException ex) {
-//                    ex.printStackTrace();
-//                }
-//            }
-//        }
+        try {
+            connection = source.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM \"appUsers\".\"appUsers\" WHERE email=? AND password=?");
+            preparedStatement.setString(1, loginUser);
+            preparedStatement.setString(2, passwordUser);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                long id = resultSet.getLong("id");
+                String email = resultSet.getString("email");
+                String password = resultSet.getString("password");
+                String name = resultSet.getString("name");
+                int age = resultSet.getInt("age");
+                return new User(id, email, password, name, age);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
         return null;
     }
 }
