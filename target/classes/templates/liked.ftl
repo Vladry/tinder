@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="img/favicon.ico">
+    <link rel="icon" href="../assets/css/favicon.ico">
 
     <title>Like page</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-    <link href="../assets/bootstrap.min.css" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="../assets/style.css"/>
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="../assets/css/style.css"/>
         <menu  class="menu col-3 offset-1">
             <li class="menu__item"><a class="menu__ref" href="/">HOME</a></li>
             <li class="menu__item"><a class="menu__ref" href="/messages">MESSAGES</a></li>

@@ -1,5 +1,6 @@
 package tinder;
 
+import org.eclipse.jetty.servlet.FilterHolder;
 import tinder.controller.*;
 import tinder.dao.UserDao;
 import tinder.dao.UserJdbcDao;
@@ -7,6 +8,9 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+
+import javax.servlet.DispatcherType;
+import java.util.EnumSet;
 
 public class JettyRun {
     public static void main(String[] args) throws Exception {
@@ -25,8 +29,10 @@ public class JettyRun {
         SessionHandler sessionHandler = new SessionHandler();
         handler.setSessionHandler(sessionHandler);
 
-//        handler.addFilter(new FilterHolder(new LoginFilter()), "/*", EnumSet.of(DispatcherType.REQUEST));
         handler.addServlet(new ServletHolder(new FileServlet()), "/assets/*");
+
+        handler.addFilter(new FilterHolder(new ViewReqDataFilter()), "/logout",  EnumSet.of(DispatcherType.REQUEST));
+        handler.addFilter(new FilterHolder(new LoginFilter()), "/*", EnumSet.of(DispatcherType.REQUEST));
 
         handler.addServlet(new ServletHolder(new LoginServlet(userDao, templateEngine)), "/login");
         handler.addServlet(new ServletHolder(new MessageServlet(templateEngine)), "/messages");
