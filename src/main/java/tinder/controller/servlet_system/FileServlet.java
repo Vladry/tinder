@@ -1,4 +1,4 @@
-package tinder.controller;
+package tinder.controller.servlet_system;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -14,6 +14,7 @@ public class FileServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         try (ServletOutputStream os = resp.getOutputStream()) {
             String rqName = req.getRequestURI();
             ClassLoader classLoader = this.getClass().getClassLoader();

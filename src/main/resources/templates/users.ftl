@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../assets/img/favicon.ico">
+<#--    <link rel="icon" href="../assets/img/favicon.ico">-->
 
     <title>People list</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
@@ -14,17 +14,17 @@
     <link type="text/css" rel="stylesheet" href="../assets/css/style.css"/>
     <div class="col-3 offset-1">
         <menu class="menu">
-            <li class="menu__item"><a class="menu__ref" href="/">HOME</a></li>
-            <li class="menu__item"><a class="menu__ref" href="/liked">LIKED</a></li>
+<#--            <li class="menu__item"><a class="menu__ref" href="/">HOME</a></li>-->
+            <li class="menu__item"><a class="menu__ref" href="/users">USERS</a></li>
             <li class="menu__item"><a class="menu__ref" href="/messages">MESSAGES</a></li>
             <li class="menu__item"><a class="menu__ref" href="/logout">LOGOUT</a></li>
         </menu>
 
-        <#if user??><p>Ваш ID: ${user.getId()}</p></#if>
-        <#if user??><p>Ваш email: ${user.getEmail()}</p></#if>
-        <#if user.getName()??><p>Ваше имя: ${user.getName()}</p></#if>
-        <#if (user.getAge() > 5) ><p>Ваш возраст: ${user.getAge()}</p></#if>
-        <#if sessionId??><p>Ваша sessionId: ${sessionId}</p></#if>
+<#--        <#if user??><p>Ваш ID: ${user.getId()}</p></#if>-->
+<#--        <#if user??><p>Ваш email: ${user.getEmail()}</p></#if>-->
+<#--        <#if user??><#if user??.getName??()><p>Ваше имя: ${user.getName()}</p></#if></#if>-->
+<#--        <#if user??><#if user??.getAge??()>(user.getAge() > 5) ><p>Ваш возраст: ${user.getAge()}</p></#if></#if>-->
+<#--        <#if sessionId??><p>Ваша sessionId: ${sessionId}</p></#if>-->
     </div>
 </head>
 <body>

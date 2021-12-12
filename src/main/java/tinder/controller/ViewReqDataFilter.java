@@ -1,26 +1,36 @@
 package tinder.controller;
 
+import tinder.controller.servlet_system.AbstractFilter;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 //@WebFilter(filterName = "/*")
 public class ViewReqDataFilter extends AbstractFilter implements Filter {
 
     public void init(javax.servlet.FilterConfig config) throws ServletException {
+        System.out.println("this is init() of ViewReaDataFilter");
     }
 
     public void destroy() {
+        System.out.println("this is destroy() of ViewReaDataFilter");
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
         super.doFilter(request, response, chain);
-        System.out.println("This is ViewReqDataFilter");
-
         HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse resp = (HttpServletResponse) response;
+        ArrayList<String>  ignoredRouts = new ArrayList<String>(List.of("/users", "/home", "messages", "/assets"));
+        System.out.println("This is ViewReqDataFilter");
+        String servletPath = req.getServletPath();
+        System.out.println("servletPath: "  + servletPath);
+/*        if ( ignoredRouts.contains(servletPath) ) {
+            System.out.println("this is an ingoredRout. Leaving ViewReqDataFilter");
+            chain.doFilter(request, response);
 
         String serverName = req.getServerName();
         System.out.println("requested:  serverName:  " + serverName);
@@ -37,22 +47,9 @@ public class ViewReqDataFilter extends AbstractFilter implements Filter {
         String requestURI = req.getRequestURI();
         System.out.println("requested:  requestURI:  " + requestURI);
 
-        String servletPath = req.getServletPath();
-        System.out.println("requested:  servletPath:  " + servletPath);
-
-        String pathInfo = req.getPathInfo();
-        System.out.println("requested:  pathInfo:  " + pathInfo);
-
-        String queryString = req.getQueryString();
-        System.out.println("requested:  queryString:  " + queryString);
-
-        String contextPath = req.getContextPath();
-        System.out.println("requested:  contextPath:  " + contextPath);
-
-        ServletContext servletContext = req.getServletContext();
-        System.out.println("requested:  servletContext:  " + servletContext);
-
-
+//        String servletPath = req.getServletPath();
+        System.out.println("requested:  servletPath:  " + servletPath);*/
+       System.out.println("Leaving ViewReqDataFilter");
         chain.doFilter(request, response);
     }
 }
