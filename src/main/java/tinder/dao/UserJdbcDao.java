@@ -155,6 +155,7 @@ public class UserJdbcDao implements UserDao {
             connection = source.getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM \"appUsers\".\"appUsers\"");
+            List<User> allUsers = new ArrayList<>(resultSet.getFetchSize());
             while (resultSet.next()) {
                 long id = resultSet.getLong("id");
                 String email = resultSet.getString("email");

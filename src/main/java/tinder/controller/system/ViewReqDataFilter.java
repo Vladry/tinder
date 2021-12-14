@@ -1,4 +1,4 @@
-package tinder.controller;
+package tinder.controller.system;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 //@WebFilter(filterName = "/*")
-public class ViewReqDataFilter extends AbstractFilter implements Filter {
+public class ViewReqDataFilter implements Filter {
 
     public void init(javax.servlet.FilterConfig config) throws ServletException {
     }
@@ -16,7 +16,6 @@ public class ViewReqDataFilter extends AbstractFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
-        super.doFilter(request, response, chain);
         System.out.println("This is ViewReqDataFilter");
 
         HttpServletRequest req = (HttpServletRequest) request;

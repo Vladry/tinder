@@ -2,6 +2,9 @@ package tinder;
 
 import org.eclipse.jetty.servlet.FilterHolder;
 import tinder.controller.*;
+import tinder.controller.system.FileServlet;
+import tinder.controller.system.RedirectServlet;
+import tinder.controller.system.TemplateEngine;
 import tinder.dao.UserDao;
 import tinder.dao.UserJdbcDao;
 import org.eclipse.jetty.server.Server;
@@ -38,6 +41,7 @@ public class JettyRun {
         handler.addServlet(new ServletHolder(new MessageServlet(templateEngine)), "/messages");
         handler.addServlet(new ServletHolder(new UsersServlet(templateEngine)), "/users");
         handler.addServlet(new ServletHolder(new LikedServlet(templateEngine)),"/liked");
+        handler.addServlet(new ServletHolder(new GenerateUsersServlet(userDao, templateEngine)), "/gu");
         handler.addServlet(new ServletHolder(new RedirectServlet()),"/*");
         handler.addServlet(new ServletHolder(new LogOutServlet(templateEngine)), "/logout");
 

@@ -1,4 +1,4 @@
-package tinder.controller;
+package tinder.controller.system;
 
 import tinder.dao.User;
 
@@ -14,10 +14,13 @@ public class RedirectServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect("/");
+        System.out.println("you've tried to access an endpoint which does not exist: " +
+                req.getServletPath());
+        System.out.println("now redirecting to: '/users'");
+        resp.sendRedirect("/users");
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect("/");
+        doGet(req, resp);
     }
 }

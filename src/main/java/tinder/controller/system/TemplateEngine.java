@@ -1,4 +1,4 @@
-package tinder.controller;
+package tinder.controller.system;
 
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;

@@ -1,12 +1,11 @@
 package tinder.controller;
 
-import org.eclipse.jetty.server.session.Session;
+import tinder.controller.system.TemplateEngine;
 import tinder.dao.User;
 import tinder.dao.UserDao;
 
 import javax.servlet.http.*;
 import java.util.HashMap;
-import java.util.stream.Stream;
 
 public class LoginServlet extends HttpServlet {
     UserDao userDao;
@@ -21,11 +20,11 @@ public class LoginServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
         templateEngine.render("login.ftl", new HashMap<>(), response);
 
-        System.out.println(userDao.findAll());
-        System.out.println(userDao.findByLoginPass("1","1"));
-        System.out.println(userDao.read(2L));
-        System.out.println(userDao.delete(4L));
-        System.out.println(userDao.create(new User(4L, "7", "7","Den",15)));
+//        System.out.println(userDao.findAll());
+//        System.out.println(userDao.findByLoginPass("1","1"));
+//        System.out.println(userDao.read(2L));
+//        System.out.println(userDao.delete(4L));
+//        System.out.println(userDao.create(new User(4L, "7", "7","Den",15)));
 //        doPost(request, response);
     }
 
@@ -35,16 +34,19 @@ public class LoginServlet extends HttpServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
         User user = userDao.findByLoginPass(email, password);
+//        user = new User(1L, "rvy", "r");
+
         if (user == null) {
-            System.out.println("such user was NOT found during the login authentication");
+            System.out.println("such user's NOT been found during the login authentication. You can generate 10 new users by following the URL: '/gu'");
             req.getRequestDispatcher("/login");
         }
         else {
             HttpSession session = req.getSession(true);
+            session.setMaxInactiveInterval(0);
             session.setAttribute("userId", user.getId());
             data.put("user", user);
             String servletPath = req.getServletPath().substring(1);
-            System.out.println("user's been authenticated by the id: " + user.getId());
+            System.out.println("user  id:"  + user.getName() + " has been authenticated");
             System.out.println("now jumping to location: " + servletPath);
             templateEngine.render(servletPath + ".ftl", data, resp);
         }

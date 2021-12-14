@@ -24,6 +24,7 @@
 <#--        <#if user.getName()??><p>Ваше имя: ${user.getName()}</p></#if>-->
 <#--        <#if (user.getAge() > 5) ><p>Ваш возраст: ${user.getAge()}</p></#if>-->
 <#--        <#if sessionId??><p>Ваша sessionId: ${sessionId}</p></#if>-->
+        <#if userId??><p>current userId: ${userId}</p></#if>
     </div>
 </head>
 <body>

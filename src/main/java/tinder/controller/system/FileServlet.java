@@ -1,4 +1,4 @@
-package tinder.controller;
+package tinder.controller.system;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -13,14 +13,13 @@ import org.apache.commons.io.IOUtils;
 public class FileServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try (ServletOutputStream os = resp.getOutputStream()) {
             String rqName = req.getRequestURI();
             ClassLoader classLoader = this.getClass().getClassLoader();
 
             byte[] bytes = IOUtils.toByteArray(Objects.requireNonNull(
                     classLoader.getResourceAsStream(rqName.substring(1))));
-//   изначально было так:  byte[] bytes = IOUtils.readAllBytes(classLoader.getResourceAsStream(rqName.substring(1)));
             os.write(bytes);
 
         } catch (NullPointerException ex) {

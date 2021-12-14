@@ -1,7 +1,6 @@
 package tinder.controller;
 
-import tinder.dao.User;
-import tinder.dao.UserDao;
+import tinder.controller.system.TemplateEngine;
 
 import javax.servlet.http.*;
 import java.util.HashMap;
