@@ -12,7 +12,6 @@
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="../assets/css/style.css"/>
     <menu class="menu col-1 offset-1">
-        <li class="menu__item"><a class="menu__ref" href="/">HOME</a></li>
         <li class="menu__item"><a class="menu__ref" href="/liked">LIKED</a></li>
         <li class="menu__item"><a class="menu__ref" href="/users">USERS</a></li>
         <li class="menu__item"><a class="menu__ref" href="/logout">LOGOUT</a></li>

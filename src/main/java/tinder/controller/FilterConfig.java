@@ -11,14 +11,14 @@ public class FilterConfig extends AbstractFilter implements Filter {
 
     @Override
     public void init(javax.servlet.FilterConfig filterConfig) throws ServletException {
-        ServletContext context = filterConfig.getServletContext();
-        FilterRegistration registration1 = context.getFilterRegistration("ViewReqDataFilter");
-        registration1.addMappingForUrlPatterns(null, true, "/assets/*.jpg", "/*");
-        registration1.addMappingForServletNames(null, true, "/login");
-
-        FilterRegistration registration2 = context.getFilterRegistration("LoginFilter");
-        registration2.addMappingForUrlPatterns(null, true, "/assets/*.jpg", "/*");
-        registration2.addMappingForServletNames(null, true, "/login");
+//        ServletContext context = filterConfig.getServletContext();
+//        FilterRegistration registration1 = context.getFilterRegistration("ViewReqDataFilter");
+//        registration1.addMappingForUrlPatterns(null, true, "/assets/*.jpg", "/*");
+//        registration1.addMappingForServletNames(null, true, "/login");
+//
+//        FilterRegistration registration2 = context.getFilterRegistration("LoginFilter");
+//        registration2.addMappingForUrlPatterns(null, true, "/assets/*.jpg", "/*");
+//        registration2.addMappingForServletNames(null, true, "/login");
     }
 
     @Override
