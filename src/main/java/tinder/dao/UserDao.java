@@ -9,4 +9,5 @@ public interface UserDao {
     boolean delete(long id);
     List<User> findAll();
     User findByLoginPass(String login,String password);
+    void deleteAllProbationaryUsers();
 }

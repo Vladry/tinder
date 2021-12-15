@@ -83,6 +83,7 @@ public class UserJdbcDao implements UserDao {
         Connection connection = null;
         try {
             connection = source.getConnection();
+
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM \"appUsers\".\"appUsers\" WHERE id = ?");
             preparedStatement.setLong(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -211,4 +212,31 @@ public class UserJdbcDao implements UserDao {
         }
         return null;
     }
+
+    @Override
+    public void deleteAllProbationaryUsers() {
+        Connection connection = null;
+        try {
+            connection = source.getConnection();
+            connection.setAutoCommit(false);
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "DELETE FROM \"appUsers\".\"appUsers\" WHERE id BETWEEN 100L AND 1000L");
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            System.out.println("SQL error");
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    System.out.println("SQL error at closing connection");
+                }
+            }
+        }
+    }
+
+    ;
+
 }
+

@@ -14,10 +14,14 @@ public class RedirectServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect("/");
+        if(req.getRequestURI().equals("/favicon.ico")) {return;}
+        System.out.println("you've tried to access an endpoint which does not exist: ");
+        System.out.println("req.getRequestURI():  " + req.getRequestURI());
+        System.out.println("now redirecting to: '/users'");
+        resp.sendRedirect("/users");
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect("/");
+        doGet(req, resp);
     }
 }

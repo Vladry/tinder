@@ -1,17 +1,18 @@
 package tinder.controller;
 
-import tinder.dao.User;
-
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 //@WebFilter(filterName = "/*")
-public class LoginFilter extends AbstractFilter implements Filter {
+public class LoginFilter implements Filter {
     TemplateEngine templateEngine;
+    List<String> ignoredPaths = new ArrayList<>(List.of("assets", "favicon.ico"));
 
     public LoginFilter(TemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
@@ -27,36 +28,44 @@ public class LoginFilter extends AbstractFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
-        super.doFilter(request, response, chain);
-        System.out.println("This is LoginFilter");
-
+//        System.out.println("This is LoginFilter");
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
+
+        String requestURI = req.getRequestURI();
+        System.out.println("current RequestURI: " + requestURI);
+
+        if (this.ignoredPaths.contains(requestURI.split("/")[1]))
+        {
+//            System.out.println("this is an ignoredPath, now leaving LoginFilter by 'return'! ");
+//            return;
+            chain.doFilter(req, resp);
+//            templateEngine.render("login.ftl", new HashMap<>(), resp);
+        }
+        if (requestURI.equals("/gu")){
+//            System.out.println("отсылаем по getRequestDispatcher на  /gu");
+            req.getRequestDispatcher( "/gu").forward(req, resp);
+            chain.doFilter(req, resp);
+        }
+
         HttpSession session = req.getSession(false);
-        String servletPath = req.getServletPath();
-
         if (session != null) {
-            System.out.println("Сессия уже существует!!!!");
-            int userId = (Integer) session.getAttribute("userId");
-            req.setAttribute("userId", userId);
-            req.getRequestDispatcher(servletPath).forward(req, resp);
+            System.out.println("Сессия уже существует");
+            System.out.println(session);
+            int userId = 0;
+            try {
+                userId = (Integer) session.getAttribute("userId");
+                req.setAttribute("userId", userId);
+            } catch (Exception e) {
+                System.out.println("userId does not exist in session");;
+            }
+            req.getRequestDispatcher(requestURI).forward(req, resp);
         } else {
-            req.getRequestDispatcher("/login").forward(req, resp);
+            System.out.println("Сессия не обнаружена");
+            templateEngine.render("login.ftl", new HashMap<>(), resp);
         }
 
-        /*
-        // если бы делали athentication на куках, было бы:
-        Cookie[] cookies = req.getCookies();
-        Cookie jSessionCookie = Stream.of(cookies).filter(c -> c.getName().equals("JSESSIONID"))
-                .findFirst().orElse(null);
-        if (jSessionCookie != null) {
-            System.out.println("jSessionCookieName: " + jSessionCookie.getName() +
-                    "    jSessionCookieValue: " + jSessionCookie.getValue());
-        } else {
-            System.out.println("jSessionCookie = null");
-        }
-*/
-
+//        System.out.println("leaving LoginFilter at its end");
         chain.doFilter(request, response);
     }
 }
