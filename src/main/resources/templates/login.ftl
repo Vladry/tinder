@@ -22,7 +22,7 @@
 </svg>
 <#--        <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">-->
         <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <h2 style="color: red"><#if message??>${message}</#if></h2>
+        <h3 style="color: red"><#if message??>${message}</#if></h3>
         <label for="inputEmail" class="sr-only">Email address</label>
         <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>

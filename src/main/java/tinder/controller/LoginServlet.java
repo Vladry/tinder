@@ -24,16 +24,20 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         String requestURI = req.getRequestURI();
-        if (requestURI.equals("/favicon.ico")) {
+        if (requestURI.equals("/favicon.ico")
+        || requestURI.contains("assets")) {
             return;
         }
-        HttpSession session = req.getSession(false);
+        System.out.println("in doPost of LoginServlet");
+
+
         HashMap<String, Object> data = new HashMap<>();
-        if (session != null) {
-            data.put("userId", session.getAttribute("userId"));
-            templateEngine.render("messages.ftl", data, resp);
-        }
+//        if (session != null) {
+//            data.put("userId", session.getAttribute("userId"));
+//            templateEngine.render("messages.ftl", data, resp);
+//        }
         String email = req.getParameter("email");
         String password = req.getParameter("password");
         System.out.println("going to check user in userDao()");
@@ -44,20 +48,25 @@ public class LoginServlet extends HttpServlet {
             System.out.println("error accessing DATABASE at getting login user");
         }
 
+
         if (user == null) {
             System.out.println("no such user " +
                     "\n generate users by URL: '/gu'");
-            data.put("message", "wrong credentials");
-            templateEngine.render("/login", data, resp);
+            data.put("message", "login or password incorrect!");
+            templateEngine.render("login.ftl", data, resp);
         } else {
+            HttpSession session = req.getSession();
             System.out.println("user idendified!");
             System.out.println("user " + user.getName() + " aged " + user.getAge() + " has logged in");
-            if (session == null) {
-                session = req.getSession(true);
+//            try {
+//                session = req.getSession(true);
                 session.setMaxInactiveInterval(0);
                 session.setAttribute("userId", user.getId());
-            }
-            System.out.println("checking session content:  userId= " + session.getAttribute("userId"));
+                System.out.println("checking session content:  userId= " + session.getAttribute("userId"));
+//            } catch (Exception e) {
+//                System.out.println("отказ создать сессию: LoginServlet ,стр.  56- 59");
+//            }
+
             data.put("user", user);
             System.out.println("user  id: " + user.getName() + " has been authenticated");
             templateEngine.render("messages.ftl", data, resp);

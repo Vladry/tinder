@@ -33,37 +33,31 @@ public class LoginFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) response;
 
         String requestURI = req.getRequestURI();
-        System.out.println("current RequestURI: " + requestURI);
+//        System.out.println("current RequestURI: " + requestURI);
+
+        if (requestURI.equals("/favicon.ico")) {
+            return;
+        }
 
         if (this.ignoredPaths.contains(requestURI.split("/")[1])) {
             chain.doFilter(req, resp);
         }
+
         if (requestURI.equals("/gu")) {
 //            System.out.println("отсылаем по getRequestDispatcher на  /gu");
             req.getRequestDispatcher("/gu").forward(req, resp);
-            chain.doFilter(req, resp);
         }
 
         HttpSession session = req.getSession(false);
         if (session != null) {
-            System.out.println("Сессия уже существует");
-            System.out.println(session);
-            int userId = 0;
-            try {
-                userId = (Integer) session.getAttribute("userId");
-                req.setAttribute("userId", userId);
-            } catch (Exception e) {
-                System.out.println("userId does not exist in session");
-                ;
-            }
+            System.out.println("Сессия обнаружена в LoginFilter");
             req.getRequestDispatcher(requestURI).forward(req, resp);
         } else {
-            System.out.println("Сессия не обнаружена");
-//            templateEngine.render("login.ftl", new HashMap<>(), resp);
+            System.out.println("Сессия не обнаружена в LoginFilter");
             req.getRequestDispatcher("/login").forward(req, resp);
+//            templateEngine.render("login.ftl", new HashMap<>(), resp);
         }
-
 //        System.out.println("leaving LoginFilter at its end");
-        chain.doFilter(request, response);
+//        chain.doFilter(request, response);
     }
 }
