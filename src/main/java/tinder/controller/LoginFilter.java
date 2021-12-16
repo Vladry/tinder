@@ -55,9 +55,15 @@ public class LoginFilter implements Filter {
         } else {
             System.out.println("Сессия не обнаружена в LoginFilter");
             req.getRequestDispatcher("/login").forward(req, resp);
-//            templateEngine.render("login.ftl", new HashMap<>(), resp);
+/*     !!! ни в коем случае не использовать в предыдущей строке вместо forward -инга (выше) строку ниже:
+           templateEngine.render("login.ftl", new HashMap<>(), resp);
+           иначе мы навсегда потеряем наш request в бесконечном круге:
+           loginForm -> LoginFilter->LoginServlet->loginForm
+           а, в этом request-е возможно сейчас и прилетели email/password в это место кода из login-формы
+
+ */
         }
 //        System.out.println("leaving LoginFilter at its end");
-//        chain.doFilter(request, response);
+        chain.doFilter(request, response);
     }
 }

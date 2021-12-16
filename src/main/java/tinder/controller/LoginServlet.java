@@ -27,10 +27,10 @@ public class LoginServlet extends HttpServlet {
 
         String requestURI = req.getRequestURI();
         if (requestURI.equals("/favicon.ico")
-        || requestURI.contains("assets")) {
+                || requestURI.contains("assets")) {
             return;
         }
-        System.out.println("in doPost of LoginServlet");
+        System.out.println("Now in doPost of LoginServlet");
 
 
         HashMap<String, Object> data = new HashMap<>();
@@ -56,16 +56,11 @@ public class LoginServlet extends HttpServlet {
             templateEngine.render("login.ftl", data, resp);
         } else {
             HttpSession session = req.getSession();
-            System.out.println("user idendified!");
+            System.out.println("user identified!");
             System.out.println("user " + user.getName() + " aged " + user.getAge() + " has logged in");
-//            try {
-//                session = req.getSession(true);
-                session.setMaxInactiveInterval(0);
-                session.setAttribute("userId", user.getId());
-                System.out.println("checking session content:  userId= " + session.getAttribute("userId"));
-//            } catch (Exception e) {
-//                System.out.println("отказ создать сессию: LoginServlet ,стр.  56- 59");
-//            }
+            session.setMaxInactiveInterval(0);
+            session.setAttribute("userId", user.getId());
+            System.out.println("checking session content:  userId= " + session.getAttribute("userId"));
 
             data.put("user", user);
             System.out.println("user  id: " + user.getName() + " has been authenticated");
