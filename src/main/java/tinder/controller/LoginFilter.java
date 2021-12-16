@@ -35,16 +35,12 @@ public class LoginFilter implements Filter {
         String requestURI = req.getRequestURI();
         System.out.println("current RequestURI: " + requestURI);
 
-        if (this.ignoredPaths.contains(requestURI.split("/")[1]))
-        {
-//            System.out.println("this is an ignoredPath, now leaving LoginFilter by 'return'! ");
-//            return;
+        if (this.ignoredPaths.contains(requestURI.split("/")[1])) {
             chain.doFilter(req, resp);
-//            templateEngine.render("login.ftl", new HashMap<>(), resp);
         }
-        if (requestURI.equals("/gu")){
+        if (requestURI.equals("/gu")) {
 //            System.out.println("отсылаем по getRequestDispatcher на  /gu");
-            req.getRequestDispatcher( "/gu").forward(req, resp);
+            req.getRequestDispatcher("/gu").forward(req, resp);
             chain.doFilter(req, resp);
         }
 
@@ -57,12 +53,14 @@ public class LoginFilter implements Filter {
                 userId = (Integer) session.getAttribute("userId");
                 req.setAttribute("userId", userId);
             } catch (Exception e) {
-                System.out.println("userId does not exist in session");;
+                System.out.println("userId does not exist in session");
+                ;
             }
             req.getRequestDispatcher(requestURI).forward(req, resp);
         } else {
             System.out.println("Сессия не обнаружена");
-            templateEngine.render("login.ftl", new HashMap<>(), resp);
+//            templateEngine.render("login.ftl", new HashMap<>(), resp);
+            req.getRequestDispatcher("/login").forward(req, resp);
         }
 
 //        System.out.println("leaving LoginFilter at its end");
