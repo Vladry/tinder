@@ -1,16 +1,17 @@
 package tinder.dao;
 
 //import com.mysql.cj.jdbc.MysqlConnectionPoolDataSource;
-
-import org.postgresql.ds.PGPoolingDataSource;
+import org.postgresql.ds.PGSimpleDataSource;
+import com.zaxxer.hikari.HikariDataSource;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserJdbcDao implements UserDao {
-    //    private MysqlConnectionPoolDataSource source;
-    private PGPoolingDataSource source;
+//    private MysqlConnectionPoolDataSource source;
+//    private PGPoolingDataSource source;
+    private HikariDataSource source;
     List<User> allUsers = new ArrayList<>();
 
 /*    public UserJdbcDao() {
@@ -29,12 +30,26 @@ public class UserJdbcDao implements UserDao {
     }*/
 
     public UserJdbcDao() {
-        source = new PGPoolingDataSource();
-        source.setServerName("ec2-52-86-177-34.compute-1.amazonaws.com");
-        source.setDatabaseName("d7g10jrgsjruk4");
-        source.setUser("mtmaprkfztrfne");
-        source.setPassword("d727d367387272970efb9ca62ff523bb77695ebf5f9a7e7b83af48e216e2fb64");
-        source.setMaxConnections(10);
+        source = new HikariDataSource();
+        source.setDriverClassName("org.postgresql.ds.PGSimpleDataSource");
+            source.setJdbcUrl("jdbc:postgresql://ec2-52-86-177-34.compute-1.amazonaws.com:5432/d7g10jrgsjruk4");
+//            source.setJdbcUrl(System.getenv("JDBC_DATABASE_URL"));
+            source.setUsername("mtmaprkfztrfne");
+            source.setPassword("d727d367387272970efb9ca62ff523bb77695ebf5f9a7e7b83af48e216e2fb64");
+            source.setMinimumIdle(1);
+            source.setMaximumPoolSize(3);
+//            source.setSchema("d7g10jrgsjruk4");
+//            source.addDataSourceProperty("databaseName", "d7g10jrgsjruk4");
+//            source.addDataSourceProperty("serverName", "ec2-52-86-177-34.compute-1.amazonaws.com");
+//            source.addDataSourceProperty("serverPort", "5432");
+
+
+//        source = new PGPoolingDataSource();
+//        source.setServerName("ec2-52-86-177-34.compute-1.amazonaws.com");
+//        source.setDatabaseName("d7g10jrgsjruk4");
+//        source.setUser("mtmaprkfztrfne");
+//        source.setPassword("d727d367387272970efb9ca62ff523bb77695ebf5f9a7e7b83af48e216e2fb64");
+//        source.setMaxConnections(10);
     }
 
     @Override
