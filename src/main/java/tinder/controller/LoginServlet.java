@@ -5,7 +5,9 @@ import tinder.dao.User;
 import tinder.dao.UserDao;
 
 import javax.servlet.http.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class LoginServlet extends HttpServlet {
@@ -20,12 +22,14 @@ public class LoginServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
         System.out.println(userDao.findAll());
-        System.out.println(userDao.findByLoginPass("1","1"));
+
+        System.out.println(userDao.findByLoginPass("vadim","1"));
+
         System.out.println(userDao.read(2L));
 
         System.out.println(userDao.delete(4L));
 
-        System.out.println(userDao.create(new User(4L, "7", "7","Den",15)));
+        System.out.println(userDao.create(new User(4L, "Den@gmail.com", "1","Den",17,"https://res.cloudinary.com/dk88eyahu/image/upload/v1639425540/tinder/images_kah10o.png")));
 
         doPost(request, response);
     }
@@ -33,6 +37,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) {
         HashMap<String, Object> data = new HashMap<>();
+
         String email = null;
         String password = null;
 /*
@@ -53,6 +58,7 @@ public class LoginServlet extends HttpServlet {
             System.out.println("Сессия уже существует!!!!");
             User user = (User) session.getAttribute("user");
             data.put("user", user);
+
             templateEngine.render("users.ftl", data, resp);
         } else {
 
@@ -63,14 +69,17 @@ public class LoginServlet extends HttpServlet {
 //                System.out.println("email or password not provided");
 //                ;
 //            }
-            //User user = userDao.findByLoginPass(email, password); TODO получить юзера из базы
+            User user = userDao.findByLoginPass(email, password); //TODO получить юзера из базы
+
             if (email != null && password != null
-                    && email.equals("v@v") && password.equals("r")) {
-                User user = new User(1L, email, password, "Петя Хлебалков", 13); // TODO разобраться где взять ID
+                    && email.equals(user.getEmail()) && password.equals(user.getPassword())) {
+//                User user = new User(1L, email, password, "Петя Хлебалков", 13,""); // TODO разобраться где взять ID
+
                 session = req.getSession(true);
                 session.setAttribute("user", user);
                 session.setMaxInactiveInterval(60 * 5);
                 session.getAttribute("user");
+
                 templateEngine.render("users.ftl", data, resp);
 
             } else {

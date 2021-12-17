@@ -17,7 +17,7 @@ public class LoginFilter extends AbstractFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
-        super.doFilter(request, response, chain);
+//        super.doFilter(request, response, chain);
         System.out.println("This is LoginFilter");
 
         HttpServletRequest req = (HttpServletRequest) request;

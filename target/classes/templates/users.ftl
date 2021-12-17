@@ -20,11 +20,11 @@
             <li class="menu__item"><a class="menu__ref" href="/logout">LOGOUT</a></li>
         </menu>
 
-        <#if user??><p>Ваш ID: ${user.getId()}</p></#if>
-        <#if user??><p>Ваш email: ${user.getEmail()}</p></#if>
-        <#if user.getName()??><p>Ваше имя: ${user.getName()}</p></#if>
-        <#if (user.getAge() > 5) ><p>Ваш возраст: ${user.getAge()}</p></#if>
-        <#if sessionId??><p>Ваша sessionId: ${sessionId}</p></#if>
+<#--        <#if users??><p>Ваш ID: ${users.get("users").get(1).getName()}</p></#if>-->
+        <#--        <#if user??><p>Ваш email: ${user.getEmail()}</p></#if>-->
+        <#--        <#if user.getName()??><p>Ваше имя: ${user.getName()}</p></#if>-->
+        <#--        <#if (user.getAge() > 5) ><p>Ваш возраст: ${user.getAge()}</p></#if>-->
+        <#--        <#if sessionId??><p>Ваша sessionId: ${sessionId}</p></#if>-->
     </div>
 </head>
 <body>
@@ -40,6 +40,26 @@
                     <div class="table-container">
                         <table class="table-users table" border="0">
                             <tbody>
+                            <#if users??>
+                                <tr>
+                                    <td width="10">
+                                        <div class="avatar-img">
+                                            <img class="img-circle"
+                                                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxhcCYW4QDWMOjOuUTxOd50KcJvK-rop9qE9zRltSbVS_bO-cfWA"/>  
+                                        </div>
+
+                                    </td>
+                                    <td class="align-middle">
+                                        ${users.getName()}
+                                    </td>
+                                    <td class="align-middle">
+                                        Builder Sales Agent
+                                    </td>
+                                    <td class="align-middle">
+                                        Last Login: 6/10/2017<br><small class="text-muted">5 days ago</small>
+                                    </td>
+                                </tr>
+                                </p></#if>
                             <tr>
                                 <td width="10">
                                     <div class="avatar-img">
@@ -58,6 +78,7 @@
                                     Last Login: 6/10/2017<br><small class="text-muted">5 days ago</small>
                                 </td>
                             </tr>
+
                             <tr>
                                 <td width="10">
                                     <div class="avatar-img">
@@ -76,24 +97,7 @@
                                     Last Login: 6/10/2017<br><small class="text-muted">5 days ago</small>
                                 </td>
                             </tr>
-                            <tr>
-                                <td width="10">
-                                    <div class="avatar-img">
-                                        <img class="img-circle"
-                                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxhcCYW4QDWMOjOuUTxOd50KcJvK-rop9qE9zRltSbVS_bO-cfWA"/>  
-                                    </div>
 
-                                </td>
-                                <td class="align-middle">
-                                    Herbert Hoover
-                                </td>
-                                <td class="align-middle">
-                                    Builder Sales Agent
-                                </td>
-                                <td class="align-middle">
-                                    Last Login: 6/10/2017<br><small class="text-muted">5 days ago</small>
-                                </td>
-                            </tr>
                             <tr>
                                 <td width="10">
                                     <div class="avatar-img">

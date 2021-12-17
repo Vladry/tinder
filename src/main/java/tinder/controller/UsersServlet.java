@@ -1,19 +1,24 @@
 package tinder.controller;
 
+import tinder.dao.LikedDao;
 import tinder.dao.User;
+import tinder.dao.UserDao;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.stream.Stream;
 
 public class UsersServlet extends HttpServlet {
     private final TemplateEngine templateEngine;
+    private final UserDao userDao;
+    private final LikedDao likedDao;
+    private int Count = 1;
 
-    public UsersServlet(TemplateEngine templateEngine) {
+    public UsersServlet(UserDao userDao, LikedDao likedDao, TemplateEngine templateEngine) {
+        this.userDao = userDao;
+        this.likedDao = likedDao;
         this.templateEngine = templateEngine;
     }
 
@@ -21,12 +26,35 @@ public class UsersServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HashMap<String, Object> data = new HashMap<>();
         HttpSession session = req.getSession(false);
-        if (session != null){
-            User user = (User) session.getAttribute("user");
+        if (session != null) {
+            User user = userDao.read((long) Count);
             data.put("user", user);
-            templateEngine.render("users.ftl", data, resp);
+            data.put("Count", Count);
+            templateEngine.render("liked.ftl", data, resp);
         } else {
             templateEngine.render("login.ftl", data, resp);
         }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HashMap<String, Object> data = new HashMap<>();
+
+        if (Count==userDao.findNumRaws()) {
+            System.out.println("hello");
+            resp.sendRedirect("/liked");
+        }
+
+        HttpSession session = req.getSession(false);
+        User userSession = (User) session.getAttribute("user");
+        if (likedDao.findMark(userSession.getId(), userDao.read((long) Count).getId())) {
+            likedDao.update(userSession.getId(), userDao.read((long) Count).getId(), req.getParameter("Like") != null); //update
+        } else {
+            likedDao.create(userSession.getId(), userDao.read((long) Count).getId(), req.getParameter("Like") != null);
+        }
+        User user = userDao.read((long) ++Count);
+        data.put("user", user);
+        data.put("Count", Count);
+        templateEngine.render("liked.ftl", data, resp);
     }
 }
