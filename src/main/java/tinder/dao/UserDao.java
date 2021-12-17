@@ -7,6 +7,7 @@ public interface UserDao {
     User read(Long id);
     void update(User user);
     boolean delete(long id);
-    List<User> findAll();
     User findByLoginPass(String login,String password);
+    List<User> findAll();
+    int findNumRaws();
 }

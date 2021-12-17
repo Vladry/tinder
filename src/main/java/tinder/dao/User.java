@@ -6,6 +6,7 @@ public class User {
     private int age;
     private String email;
     private String password;
+    private String urlPhoto;
 
     public User(Long id, String email, String password){
         this.id = id;
@@ -13,10 +14,21 @@ public class User {
         this.password = password;
     }
 
-    public User(Long id, String email, String password, String name, int age) {
+
+    public User(Long id, String email, String password, String name, int age, String urlPhoto) {
         this(id, email, password);
         this.name = name;
         this.age = age;
+        this.urlPhoto = urlPhoto;
+
+    }
+
+    public String getUrlPhoto() {
+        return urlPhoto;
+    }
+
+    public void setUrlPhoto(String urlPhoto) {
+        this.urlPhoto = urlPhoto;
     }
 
     public Long getId() {
@@ -65,8 +77,9 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", age=" + age +
-                ", email=" + email +
-                ", password" + password +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", urlPhoto='" + urlPhoto + '\'' +
                 '}';
     }
 }
