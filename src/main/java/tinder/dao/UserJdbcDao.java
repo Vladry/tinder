@@ -14,7 +14,9 @@ public class UserJdbcDao implements UserDao {
     private HikariDataSource source;
     List<User> allUsers = new ArrayList<>();
 
-/*    public UserJdbcDao() {
+/*
+           //подключение от Ращупкина:  mySql  на старом пуле:
+   public UserJdbcDao() {
         try {
             source = new MysqlConnectionPoolDataSource();
             source.setServerName("localhost");
@@ -27,7 +29,18 @@ public class UserJdbcDao implements UserDao {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-    }*/
+    }
+
+
+
+        //подключение от Вадима: postgre  на старом пуле:
+//        source = new PGPoolingDataSource();
+//        source.setServerName("ec2-52-86-177-34.compute-1.amazonaws.com");
+//        source.setDatabaseName("d7g10jrgsjruk4");
+//        source.setUser("mtmaprkfztrfne");
+//        source.setPassword("d727d367387272970efb9ca62ff523bb77695ebf5f9a7e7b83af48e216e2fb64");
+//        source.setMaxConnections(10);
+    */
 
     public UserJdbcDao() {
         source = new HikariDataSource();
@@ -38,18 +51,13 @@ public class UserJdbcDao implements UserDao {
             source.setPassword("d727d367387272970efb9ca62ff523bb77695ebf5f9a7e7b83af48e216e2fb64");
             source.setMinimumIdle(1);
             source.setMaximumPoolSize(3);
+            //настройка ниже не заработала без   source.setJdbcUrl:
 //            source.setSchema("d7g10jrgsjruk4");
 //            source.addDataSourceProperty("databaseName", "d7g10jrgsjruk4");
 //            source.addDataSourceProperty("serverName", "ec2-52-86-177-34.compute-1.amazonaws.com");
 //            source.addDataSourceProperty("serverPort", "5432");
 
 
-//        source = new PGPoolingDataSource();
-//        source.setServerName("ec2-52-86-177-34.compute-1.amazonaws.com");
-//        source.setDatabaseName("d7g10jrgsjruk4");
-//        source.setUser("mtmaprkfztrfne");
-//        source.setPassword("d727d367387272970efb9ca62ff523bb77695ebf5f9a7e7b83af48e216e2fb64");
-//        source.setMaxConnections(10);
     }
 
     @Override
