@@ -7,6 +7,9 @@ import tinder.dao.UserDao;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
+
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.stream.Stream;
 
@@ -24,8 +27,18 @@ public class UsersServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HashMap<String, Object> data = new HashMap<>();
         HttpSession session = req.getSession(false);
+        User userSession = (User) session.getAttribute("user");
+
+        if(userSession.getId()==Count){
+            Count++;
+        }
+        Date date = new Date();
+
+        userSession.setLoginDate(date);
+        userDao.update(userSession);
+
+        HashMap<String, Object> data = new HashMap<>();
         if (session != null) {
             User user = userDao.read((long) Count);
             data.put("user", user);
@@ -41,18 +54,24 @@ public class UsersServlet extends HttpServlet {
         HashMap<String, Object> data = new HashMap<>();
 
         if (Count==userDao.findNumRaws()) {
-            System.out.println("hello");
             resp.sendRedirect("/liked");
         }
 
         HttpSession session = req.getSession(false);
         User userSession = (User) session.getAttribute("user");
+
         if (likedDao.findMark(userSession.getId(), userDao.read((long) Count).getId())) {
             likedDao.update(userSession.getId(), userDao.read((long) Count).getId(), req.getParameter("Like") != null); //update
-        } else {
+        } else{
             likedDao.create(userSession.getId(), userDao.read((long) Count).getId(), req.getParameter("Like") != null);
         }
-        User user = userDao.read((long) ++Count);
+
+        Count++;
+        if(userSession.getId()==Count){
+            Count++;
+        }
+
+        User user = userDao.read((long) Count);
         data.put("user", user);
         data.put("Count", Count);
         templateEngine.render("liked.ftl", data, resp);

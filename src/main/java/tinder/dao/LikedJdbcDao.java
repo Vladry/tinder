@@ -6,11 +6,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class LikedJdbcDao implements LikedDao {
 
     private PGPoolingDataSource source;
+    HashMap<Long, Object> likedUsers = new HashMap<>();
 
     public LikedJdbcDao() {
         source = new PGPoolingDataSource();
@@ -61,7 +66,43 @@ public class LikedJdbcDao implements LikedDao {
     }
 
     @Override
-    public List<User> findLikedUsers(Long who_id) {
+    public HashMap<Long,Object> findLikedUsers(Long who_id) {
+        Connection connection = null;
+        try {
+            connection = source.getConnection();
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement("select * \n" +
+                            "from \"appUsers\".\"likedUsers\" l join \"appUsers\".\"appUsers\" u\n" +
+                            "on l.whom_id = u.id\n" +
+                            "where l.is_liked = true and l.who_id=?");
+            preparedStatement.setLong(1, who_id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                long id = resultSet.getLong("id");
+                String email = resultSet.getString("email");
+                String password = resultSet.getString("password");
+                String name = resultSet.getString("name");
+                int age = resultSet.getInt("age");
+                String urlPhoto = resultSet.getString("url_photo");
+                Date loginDate = resultSet.getDate("last_date");
+
+                User newUsers = new User(id, email, password, name, age, urlPhoto);
+                newUsers.setLoginDate(loginDate);
+                likedUsers.put(id,newUsers);
+            }
+            return likedUsers;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
         return null;
     }
 
@@ -79,7 +120,6 @@ public class LikedJdbcDao implements LikedDao {
 
             while (resultSet.next()) {
                 long id = resultSet.getLong("who_id");
-//                System.out.println(id);
                 return id > 0;
             }
 
@@ -99,7 +139,7 @@ public class LikedJdbcDao implements LikedDao {
 
 
     @Override
-    public boolean update(Long who_id,Long whom_id,boolean isLike) {
+    public boolean update(Long who_id, Long whom_id, boolean isLike) {
         Connection connection = null;
         try {
             connection = source.getConnection();
