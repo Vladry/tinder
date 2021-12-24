@@ -1,5 +1,8 @@
 package tinder.dao;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 public class User {
     private Long id;
     private String name;
@@ -7,20 +10,27 @@ public class User {
     private String email;
     private String password;
     private String urlPhoto;
+    private Date loginDate;
 
-    public User(Long id, String email, String password){
+    public User(Long id, String email, String password) {
         this.id = id;
         this.email = email;
         this.password = password;
     }
-
 
     public User(Long id, String email, String password, String name, int age, String urlPhoto) {
         this(id, email, password);
         this.name = name;
         this.age = age;
         this.urlPhoto = urlPhoto;
+    }
 
+    public void setLoginDate(Date loginDate) {
+        this.loginDate = loginDate;
+    }
+
+    public Date getLoginDate() {
+        return loginDate;
     }
 
     public String getUrlPhoto() {

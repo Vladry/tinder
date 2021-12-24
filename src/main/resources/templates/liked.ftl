@@ -21,14 +21,14 @@
 
 </head>
 <body style="background-color: #f5f5f5;">
-${Count}
+
 <div class="col-4 offset-1">
     <div class="card">
         <div class="card-body">
             <form action="/users" method="post">
                 <div class="row">
 
-                    <img src=${user.getUrlPhoto()} alt="" class="mx-auto rounded-circle img-fluid">
+                    <img src=<#if user??>${user.getUrlPhoto()}</#if> alt="" class="mx-auto rounded-circle img-fluid">
                     <div class="col-12 col-lg-12 col-md-12 text-center">
                         <h3 class="mb-0 text-truncated">${user.getName()}</h3>
                         <br>

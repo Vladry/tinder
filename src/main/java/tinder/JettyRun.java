@@ -40,7 +40,7 @@ public class JettyRun {
         handler.addServlet(new ServletHolder(new LoginServlet(userDao, templateEngine)), "/login");
         handler.addServlet(new ServletHolder(new MessageServlet(templateEngine)), "/messages");
         handler.addServlet(new ServletHolder(new UsersServlet(userDao,likedDao,templateEngine)), "/users");
-        handler.addServlet(new ServletHolder(new LikedServlet(userDao,templateEngine)),"/liked");
+        handler.addServlet(new ServletHolder(new LikedServlet(userDao,likedDao,templateEngine)),"/liked");
         handler.addServlet(new ServletHolder(new HomeServlet(templateEngine)),"/");
         handler.addServlet(new ServletHolder(new LogOutServlet(templateEngine)), "/logout");
 

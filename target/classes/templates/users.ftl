@@ -20,7 +20,8 @@
             <li class="menu__item"><a class="menu__ref" href="/logout">LOGOUT</a></li>
         </menu>
 
-<#--        <#if users??><p>Ваш ID: ${users.get("users").get(1).getName()}</p></#if>-->
+
+<#--                <#if users??><p>Ваш ID: ${users.get(1).getName()}</p></#if>-->
         <#--        <#if user??><p>Ваш email: ${user.getEmail()}</p></#if>-->
         <#--        <#if user.getName()??><p>Ваше имя: ${user.getName()}</p></#if>-->
         <#--        <#if (user.getAge() > 5) ><p>Ваш возраст: ${user.getAge()}</p></#if>-->
@@ -40,82 +41,88 @@
                     <div class="table-container">
                         <table class="table-users table" border="0">
                             <tbody>
-                            <#if users??>
+                            <#list users as key, user>
                                 <tr>
                                     <td width="10">
                                         <div class="avatar-img">
                                             <img class="img-circle"
-                                                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxhcCYW4QDWMOjOuUTxOd50KcJvK-rop9qE9zRltSbVS_bO-cfWA"/>  
+                                                 src="${user.getUrlPhoto()}"/>  
                                         </div>
 
                                     </td>
                                     <td class="align-middle">
-                                        ${users.getName()}
+                                        ${user.getName()}
                                     </td>
                                     <td class="align-middle">
                                         Builder Sales Agent
                                     </td>
                                     <td class="align-middle">
-                                        Last Login: 6/10/2017<br><small class="text-muted">5 days ago</small>
+                                        Last
+                                        Login: <#if user.getLoginDate()??> ${user.getLoginDate()} <#else>for 5 yers ago</#if>
+<#--                                        <br><small-->
+<#--                                                class="text-muted">5 days ago</small>-->
                                     </td>
                                 </tr>
-                                </p></#if>
-                            <tr>
-                                <td width="10">
-                                    <div class="avatar-img">
-                                        <img class="img-circle"
-                                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxhcCYW4QDWMOjOuUTxOd50KcJvK-rop9qE9zRltSbVS_bO-cfWA"/>  
-                                    </div>
+                                </p>
+                            <#else> <h1>There's no users u've liked before</h1>
+                            </#list>
 
-                                </td>
-                                <td class="align-middle">
-                                    Herbert Hoover
-                                </td>
-                                <td class="align-middle">
-                                    Builder Sales Agent
-                                </td>
-                                <td class="align-middle">
-                                    Last Login: 6/10/2017<br><small class="text-muted">5 days ago</small>
-                                </td>
-                            </tr>
+                            <#--                            <tr>-->
+                            <#--                                <td width="10">-->
+                            <#--                                    <div class="avatar-img">-->
+                            <#--                                        <img class="img-circle"-->
+                            <#--                                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxhcCYW4QDWMOjOuUTxOd50KcJvK-rop9qE9zRltSbVS_bO-cfWA"/>  -->
+                            <#--                                    </div>-->
 
-                            <tr>
-                                <td width="10">
-                                    <div class="avatar-img">
-                                        <img class="img-circle"
-                                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxhcCYW4QDWMOjOuUTxOd50KcJvK-rop9qE9zRltSbVS_bO-cfWA"/>  
-                                    </div>
+                            <#--                                </td>-->
+                            <#--                                <td class="align-middle">-->
+                            <#--                                    Herbert Hoover-->
+                            <#--                                </td>-->
+                            <#--                                <td class="align-middle">-->
+                            <#--                                    Builder Sales Agent-->
+                            <#--                                </td>-->
+                            <#--                                <td class="align-middle">-->
+                            <#--                                    Last Login: 6/10/2017<br><small class="text-muted">5 days ago</small>-->
+                            <#--                                </td>-->
+                            <#--                            </tr>-->
 
-                                </td>
-                                <td class="align-middle">
-                                    Herbert Hoover
-                                </td>
-                                <td class="align-middle">
-                                    Builder Sales Agent
-                                </td>
-                                <td class="align-middle">
-                                    Last Login: 6/10/2017<br><small class="text-muted">5 days ago</small>
-                                </td>
-                            </tr>
+                            <#--                            <tr>-->
+                            <#--                                <td width="10">-->
+                            <#--                                    <div class="avatar-img">-->
+                            <#--                                        <img class="img-circle"-->
+                            <#--                                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxhcCYW4QDWMOjOuUTxOd50KcJvK-rop9qE9zRltSbVS_bO-cfWA"/>  -->
+                            <#--                                    </div>-->
 
-                            <tr>
-                                <td width="10">
-                                    <div class="avatar-img">
-                                        <img class="img-circle"
-                                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxhcCYW4QDWMOjOuUTxOd50KcJvK-rop9qE9zRltSbVS_bO-cfWA"/>  
-                                    </div>
+                            <#--                                </td>-->
+                            <#--                                <td class="align-middle">-->
+                            <#--                                    Herbert Hoover-->
+                            <#--                                </td>-->
+                            <#--                                <td class="align-middle">-->
+                            <#--                                    Builder Sales Agent-->
+                            <#--                                </td>-->
+                            <#--                                <td class="align-middle">-->
+                            <#--                                    Last Login: 6/10/2017<br><small class="text-muted">5 days ago</small>-->
+                            <#--                                </td>-->
+                            <#--                            </tr>-->
 
-                                </td>
-                                <td class="align-middle">
-                                    Herbert Hoover
-                                </td>
-                                <td class="align-middle">
-                                    Builder Sales Agent
-                                </td>
-                                <td class="align-middle">
-                                    Last Login: 6/10/2017<br><small class="text-muted">5 days ago</small>
-                                </td>
-                            </tr>
+                            <#--                            <tr>-->
+                            <#--                                <td width="10">-->
+                            <#--                                    <div class="avatar-img">-->
+                            <#--                                        <img class="img-circle"-->
+                            <#--                                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxhcCYW4QDWMOjOuUTxOd50KcJvK-rop9qE9zRltSbVS_bO-cfWA"/>  -->
+                            <#--                                    </div>-->
+
+                            <#--                                </td>-->
+                            <#--                                <td class="align-middle">-->
+                            <#--                                    Herbert Hoover-->
+                            <#--                                </td>-->
+                            <#--                                <td class="align-middle">-->
+                            <#--                                    Builder Sales Agent-->
+                            <#--                                </td>-->
+                            <#--                                <td class="align-middle">-->
+                            <#--                                    Last Login: 6/10/2017<br><small class="text-muted">5 days ago</small>-->
+                            <#--                                </td>-->
+                            <#--                            </tr>-->
                             </tbody>
                         </table>
                     </div>

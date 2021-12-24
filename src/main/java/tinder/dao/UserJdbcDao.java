@@ -6,6 +6,7 @@ import org.postgresql.ds.PGPoolingDataSource;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class UserJdbcDao implements UserDao  {
@@ -112,7 +113,44 @@ public class UserJdbcDao implements UserDao  {
     }
 
     @Override
-    public void update(User user) {
+    public boolean update(User user) {
+        Connection connection = null;
+        try {
+            connection = source.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "update \"appUsers\".\"appUsers\"\n" +
+                            "set email = ?,password = ?,name = ?,age = ?,url_photo = ?,last_date=?\n" +
+                            "where id = ?");
+            preparedStatement.setString(1, user.getEmail());
+            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setString(3, user.getName());
+            preparedStatement.setLong(4, user.getAge());
+            preparedStatement.setString(5, user.getUrlPhoto());
+            java.sql.Date sqlDate = new java.sql.Date(user.getLoginDate().getTime());
+
+            preparedStatement.setDate(6, sqlDate);
+            preparedStatement.setLong(7, user.getId());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                long id = resultSet.getLong("who_id");
+                System.out.println(id);
+                return id > 0;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return false;
 
     }
 
