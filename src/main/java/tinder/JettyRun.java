@@ -35,7 +35,7 @@ public class JettyRun {
         handler.addServlet(new ServletHolder(new FileServlet()), "/assets/*");
 
         handler.addFilter(new FilterHolder(new ViewReqDataFilter()), "/logout",  EnumSet.of(DispatcherType.REQUEST));
-        handler.addFilter(new FilterHolder(new LoginFilter()), "/*", EnumSet.of(DispatcherType.REQUEST));
+        handler.addFilter(new FilterHolder(new LoginFilter(templateEngine)), "/*", EnumSet.of(DispatcherType.REQUEST));
 
         handler.addServlet(new ServletHolder(new LoginServlet(userDao, templateEngine)), "/login");
         handler.addServlet(new ServletHolder(new MessageServlet(templateEngine)), "/messages");

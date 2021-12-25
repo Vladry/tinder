@@ -21,11 +21,13 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HashMap<String, Object> data = new HashMap<>();
         HttpSession session = req.getSession(false);
+
         if (session != null){
             User user = (User) session.getAttribute("user");
             data.put("user", user);
             data.put("sessionId", session.getId());
-            templateEngine.render("users.ftl", data, resp);
+            req.getRequestDispatcher("users").forward(req,resp);
+//            templateEngine.render("users.ftl", data, resp);
         } else {
             templateEngine.render("login.ftl", data, resp);
         }
