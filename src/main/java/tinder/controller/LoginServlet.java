@@ -4,7 +4,9 @@ import org.eclipse.jetty.server.session.Session;
 import tinder.dao.User;
 import tinder.dao.UserDao;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,21 +23,21 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
-        System.out.println(userDao.findAll());
-
-        System.out.println(userDao.findByLoginPass("vadim","1"));
-
-        System.out.println(userDao.read(2L));
-
-        System.out.println(userDao.delete(4L));
-
-        System.out.println(userDao.create(new User(4L, "Den@gmail.com", "1","Den",17,"https://res.cloudinary.com/dk88eyahu/image/upload/v1639425540/tinder/images_kah10o.png")));
-
-        doPost(request, response);
+//        System.out.println(userDao.findAll());
+//
+//        System.out.println(userDao.findByLoginPass("vadim","1"));
+//
+//        System.out.println(userDao.read(2L));
+//
+//        System.out.println(userDao.delete(4L));
+//
+//        System.out.println(userDao.create(new User(4L, "Den@gmail.com", "1","Den",17,"https://res.cloudinary.com/dk88eyahu/image/upload/v1639425540/tinder/images_kah10o.png")));
+//
+//        doPost(request, response);
     }
 
     @Override
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) {
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HashMap<String, Object> data = new HashMap<>();
 
         String email = null;
@@ -54,33 +56,38 @@ public class LoginServlet extends HttpServlet {
 */
 
         HttpSession session = req.getSession(false);
+
         if (session != null) {
-            System.out.println("Сессия уже существует!!!!");
+             System.out.println("Сессия уже существует!!!!");
             User user = (User) session.getAttribute("user");
             data.put("user", user);
 
-            templateEngine.render("users.ftl", data, resp);
+            req.getRequestDispatcher("users").forward(req,resp);
+//            templateEngine.render("users.ftl", data, resp);
         } else {
 
-//            try {
+            try {
                 email = req.getParameter("email");
                 password = req.getParameter("password");
-//            } catch (NullPointerException e) {
-//                System.out.println("email or password not provided");
-//                ;
-//            }
+
+                System.out.println(email + " email");
+                System.out.println(password + " password");
+
+            } catch (NullPointerException e) {
+                System.out.println("email or password not provided");
+                ;
+            }
             User user = userDao.findByLoginPass(email, password); //TODO получить юзера из базы
 
             if (email != null && password != null
                     && email.equals(user.getEmail()) && password.equals(user.getPassword())) {
-//                User user = new User(1L, email, password, "Петя Хлебалков", 13,""); // TODO разобраться где взять ID
 
                 session = req.getSession(true);
                 session.setAttribute("user", user);
                 session.setMaxInactiveInterval(60 * 5);
                 session.getAttribute("user");
 
-                templateEngine.render("users.ftl", data, resp);
+                resp.sendRedirect("/users");
 
             } else {
                 data.put("message", "wrong email or password");
