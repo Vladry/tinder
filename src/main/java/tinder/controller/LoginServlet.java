@@ -42,19 +42,6 @@ public class LoginServlet extends HttpServlet {
 
         String email = null;
         String password = null;
-/*
-        // если бы делали athentication на куках, было бы:
-        Cookie[] cookies = req.getCookies();
-        Cookie jSessionCookie = Stream.of(cookies).filter(c -> c.getName().equals("JSESSIONID"))
-                .findFirst().orElse(null);
-        if (jSessionCookie != null) {
-            System.out.println("jSessionCookieName: " + jSessionCookie.getName() +
-                    "    jSessionCookieValue: " + jSessionCookie.getValue());
-        } else {
-            System.out.println("jSessionCookie = null");
-        }
-*/
-
         HttpSession session = req.getSession(false);
 
         if (session != null) {
@@ -79,7 +66,8 @@ public class LoginServlet extends HttpServlet {
             }
             User user = userDao.findByLoginPass(email, password); //TODO получить юзера из базы
 
-            if (email != null && password != null
+            if (    user != null
+                    && email != null && password != null
                     && email.equals(user.getEmail()) && password.equals(user.getPassword())) {
 
                 session = req.getSession(true);

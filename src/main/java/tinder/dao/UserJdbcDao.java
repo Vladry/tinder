@@ -9,7 +9,7 @@ import java.util.List;
 
     public class UserJdbcDao implements UserDao {
 
-        private HikariDataSource source;
+        private final HikariDataSource source;
         List<User> allUsers = new ArrayList<>();
 
         public UserJdbcDao() {
