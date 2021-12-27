@@ -1,15 +1,11 @@
 package tinder.dao;
 
-import org.postgresql.ds.PGPoolingDataSource;
+//import org.postgresql.ds.PGPoolingDataSource;
 
 import com.zaxxer.hikari.HikariDataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
-public class UserJdbcDao implements UserDao  {
-
-    List<User> allUsers = new ArrayList<>();
 
     public class UserJdbcDao implements UserDao {
 
