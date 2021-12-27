@@ -5,15 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../assets/css/favicon.ico">
+<#--    <link rel="icon" href="../assets/css/favicon.ico">-->
 
     <title>Like page</title>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
-          integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+<#--    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"-->
+<#--          integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">-->
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="../assets/css/style.css"/>
     <menu class="menu col-3 offset-1">
-        <li class="menu__item"><a class="menu__ref" href="/">HOME</a></li>
         <li class="menu__item"><a class="menu__ref" href="/messages">MESSAGES</a></li>
         <li class="menu__item"><a class="menu__ref" href="/users">USERS</a></li>
         <li class="menu__item"><a class="menu__ref" href="/logout">LOGOUT</a></li>
@@ -25,10 +24,10 @@
 <div class="col-4 offset-1">
     <div class="card">
         <div class="card-body">
-            <form action="/users" method="post">
+            <form action="/users" method="POST">
                 <div class="row">
 
-                    <img src=<#if user??>${user.getUrlPhoto()}</#if> alt="" class="mx-auto rounded-circle img-fluid">
+                    <img src='<#if user??>${user.getUrlPhoto()}</#if>' alt = "current_user" class="mx-auto rounded-circle img-fluid" />
                     <div class="col-12 col-lg-12 col-md-12 text-center">
                         <h3 class="mb-0 text-truncated">${user.getName()}</h3>
                         <br>
