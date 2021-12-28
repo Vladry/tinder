@@ -21,7 +21,7 @@ public class JettyRun {
         String username = System.getenv("JDBC_DATABASE_USERNAME");
         String password = System.getenv("JDBC_DATABASE_PASSWORD");
         portStr = portStr == null ? "8088" : portStr;
-        Integer port = Integer.parseInt(portStr);
+        int port = Integer.parseInt(portStr);
         System.out.println("PORT: " + port);
         Server server = new Server(port);
         ServletContextHandler handler = new ServletContextHandler();
