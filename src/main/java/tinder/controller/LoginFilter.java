@@ -36,7 +36,8 @@ public class LoginFilter implements Filter {
             return;
         }
 
-        if (this.ignoredPaths.contains(requestURI.split("/")[1])) {
+        if (    requestURI.split("/").length > 0
+                && this.ignoredPaths.contains(requestURI.split("/")[1])) {
             chain.doFilter(req, resp);
         }
 
