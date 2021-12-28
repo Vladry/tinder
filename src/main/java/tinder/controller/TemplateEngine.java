@@ -16,7 +16,7 @@ public class TemplateEngine {
 
     public TemplateEngine() {
         this.conf = new Configuration(Configuration.VERSION_2_3_29) {{
-            setClassLoaderForTemplateLoading(TemplateEngine.class.getClassLoader(), "/templates/");
+            setClassLoaderForTemplateLoading(TemplateEngine.class.getClassLoader(), "templates");
             setDefaultEncoding(String.valueOf(StandardCharsets.UTF_8));
             setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
             setLogTemplateExceptions(false);

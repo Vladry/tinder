@@ -5,11 +5,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 //@WebFilter(filterName = "/*")
-public class LoginFilter extends AbstractFilter implements Filter {
-    private final TemplateEngine templateEngine;
+public class LoginFilter implements Filter {
+    TemplateEngine templateEngine;
+    List<String> ignoredPaths = new ArrayList<>(List.of("assets", "favicon.ico"));
 
     public LoginFilter(TemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
@@ -25,18 +27,32 @@ public class LoginFilter extends AbstractFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
-        System.out.println("This is LoginFilter");
-
+//        System.out.println("This is LoginFilter");
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
 
-        HashMap<String, Object> data = new HashMap<>();
-        HttpSession session = req.getSession(false);
+        String requestURI = req.getRequestURI();
+        if (requestURI.equals("/favicon.ico")) {
+            return;
+        }
 
-//        if (session == null) {
-////            templateEngine.render("login.ftl", data, resp);
-//            resp.sendRedirect("/");
-//        }else
-          chain.doFilter(request, response);
+        if (this.ignoredPaths.contains(requestURI.split("/")[1])) {
+            chain.doFilter(req, resp);
+        }
+
+        if (requestURI.equals("/gu")) {
+//            System.out.println("отсылаем по getRequestDispatcher на  /gu");
+            req.getRequestDispatcher("/gu").forward(req, resp);
+        }
+
+        HttpSession session = req.getSession(false);
+        if (session != null) {
+            System.out.println("Сессия обнаружена в LoginFilter");
+            req.getRequestDispatcher(requestURI).forward(req, resp);
+        } else {
+            System.out.println("Сессия не обнаружена в LoginFilter");
+            req.getRequestDispatcher("/login").forward(req, resp);
+        }
+        chain.doFilter(request, response);
     }
 }

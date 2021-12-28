@@ -25,16 +25,7 @@ public class LikedServlet extends HttpServlet {
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
         HashMap<String, Object> data = new HashMap<>();
         HttpSession session = req.getSession(false);
-        User userSession = (User) session.getAttribute("user");
-
-        data.put("users", likedDao.findLikedUsers(userSession.getId()));
-
-        if (session != null) {
-//            User user = (User) session.getAttribute("user");
-//            data.put("user", user);
-            templateEngine.render("users.ftl", data, resp);
-        } else {
-            templateEngine.render("login.ftl", data, resp);
-        }
+        data.put("users", likedDao.findLikedUsers((Long)session.getAttribute("userId") ) );
+        templateEngine.render("liked.ftl", data, resp);
     }
 }

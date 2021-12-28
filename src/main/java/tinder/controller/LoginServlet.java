@@ -1,16 +1,12 @@
 package tinder.controller;
 
-import org.eclipse.jetty.server.session.Session;
 import tinder.dao.User;
 import tinder.dao.UserDao;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Stream;
 
 public class LoginServlet extends HttpServlet {
     UserDao userDao;
@@ -23,65 +19,53 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
-//        System.out.println(userDao.findAll());
-//
-//        System.out.println(userDao.findByLoginPass("vadim","1"));
-//
-//        System.out.println(userDao.read(2L));
-//
-//        System.out.println(userDao.delete(4L));
-//
-//        System.out.println(userDao.create(new User(4L, "Den@gmail.com", "1","Den",17,"https://res.cloudinary.com/dk88eyahu/image/upload/v1639425540/tinder/images_kah10o.png")));
-//
-//        doPost(request, response);
+        templateEngine.render("login.ftl", new HashMap<>(), response);
     }
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        String requestURI = req.getRequestURI();
+        if (requestURI.equals("/favicon.ico")
+                || requestURI.contains("assets")) {
+            return;
+        }
+        System.out.println("Now in doPost of LoginServlet");
+
+
         HashMap<String, Object> data = new HashMap<>();
+//        if (session != null) {
+//            data.put("userId", session.getAttribute("userId"));
+//            templateEngine.render("messages.ftl", data, resp);
+//        }
+        String email = req.getParameter("email");
+        String password = req.getParameter("password");
+        System.out.println("going to check user in userDao()");
+        User user = null;
+        try {
+            user = userDao.findByLoginPass(email, password);
+        } catch (Exception e) {
+            System.out.println("error accessing DATABASE at getting login user");
+        }
 
-        String email = null;
-        String password = null;
-        HttpSession session = req.getSession(false);
 
-        if (session != null) {
-             System.out.println("Сессия уже существует!!!!");
-            User user = (User) session.getAttribute("user");
-            data.put("user", user);
-
-            req.getRequestDispatcher("users").forward(req,resp);
-//            templateEngine.render("users.ftl", data, resp);
+        if (user == null) {
+            System.out.println("no such user " +
+                    "\n generate users by URL: '/gu'");
+            data.put("message", "login or password incorrect!");
+            templateEngine.render("login.ftl", data, resp);
         } else {
+            HttpSession session = req.getSession();
+            System.out.println("user identified!");
+            System.out.println("user " + user.getName() + " aged " + user.getAge() + " has logged in");
+            session.setMaxInactiveInterval(0);
+            session.setAttribute("userId", user.getId());
+            session.setAttribute("user", user);
+            System.out.println("checking session content:  userId= " + session.getAttribute("userId"));
 
-            try {
-                email = req.getParameter("email");
-                password = req.getParameter("password");
-
-                System.out.println(email + " email");
-                System.out.println(password + " password");
-
-            } catch (NullPointerException e) {
-                System.out.println("email or password not provided");
-                ;
-            }
-            User user = userDao.findByLoginPass(email, password); //TODO получить юзера из базы
-
-            if (    user != null
-                    && email != null && password != null
-                    && email.equals(user.getEmail()) && password.equals(user.getPassword())) {
-
-                session = req.getSession(true);
-                session.setAttribute("user", user);
-                session.setMaxInactiveInterval(60 * 5);
-                session.getAttribute("user");
-
-                resp.sendRedirect("/users");
-
-            } else {
-                data.put("message", "wrong email or password");
-                templateEngine.render("login.ftl", data, resp);
-            }
-
+            data.put("user", user);
+            System.out.println("user  id: " + user.getName() + " has been authenticated");
+            templateEngine.render("messages.ftl", data, resp);
         }
     }
 }

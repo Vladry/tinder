@@ -30,7 +30,7 @@ public class UsersServlet extends HttpServlet {
         HttpSession session = req.getSession(false);
         User userSession = (User) session.getAttribute("user");
 
-        if(userSession.getId()==Count){
+        if((Long)session.getAttribute("userId")==Count){
             Count++;
         }
         Date date = new Date();
@@ -43,7 +43,7 @@ public class UsersServlet extends HttpServlet {
             User user = userDao.read((long) Count);
             data.put("user", user);
             data.put("Count", Count);
-            templateEngine.render("liked.ftl", data, resp);
+            templateEngine.render("users.ftl", data, resp);
         } else {
             templateEngine.render("login.ftl", data, resp);
         }
@@ -54,14 +54,16 @@ public class UsersServlet extends HttpServlet {
         HashMap<String, Object> data = new HashMap<>();
 
         if (Count==userDao.findNumRaws()) {
-            resp.sendRedirect("/liked");
+            resp.sendRedirect("/users");
         }
 
         HttpSession session = req.getSession(false);
         User userSession = (User) session.getAttribute("user");
 
-        if (likedDao.findMark(userSession.getId(), userDao.read((long) Count).getId())) {
-            likedDao.update(userSession.getId(), userDao.read((long) Count).getId(), req.getParameter("Like") != null); //update
+        if (likedDao.findMark((Long)session.getAttribute("userId"), userDao.read((long) Count).getId())) {
+//        if (likedDao.findMark(userSession.getId(), userDao.read((long) Count).getId())) {
+            likedDao.update((Long)session.getAttribute("userId"), userDao.read((long) Count).getId(), req.getParameter("Like") != null); //update
+//            likedDao.update(userSession.getId(), userDao.read((long) Count).getId(), req.getParameter("Like") != null); //update
         } else{
             likedDao.create(userSession.getId(), userDao.read((long) Count).getId(), req.getParameter("Like") != null);
         }
@@ -74,6 +76,6 @@ public class UsersServlet extends HttpServlet {
         User user = userDao.read((long) Count);
         data.put("user", user);
         data.put("Count", Count);
-        templateEngine.render("liked.ftl", data, resp);
+        templateEngine.render("users.ftl", data, resp);
     }
 }

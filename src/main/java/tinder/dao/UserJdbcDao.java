@@ -1,7 +1,5 @@
 package tinder.dao;
 
-//import org.postgresql.ds.PGPoolingDataSource;
-
 import com.zaxxer.hikari.HikariDataSource;
 import java.sql.*;
 import java.util.ArrayList;
