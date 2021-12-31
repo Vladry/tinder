@@ -1,6 +1,6 @@
 package tinder.dao;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.Date;
 
 public class User {

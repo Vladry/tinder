@@ -10,6 +10,8 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import tinder.v_dao.UserDao_v;
+import tinder.v_dao.UserJdbcHikariDao;
 
 import javax.servlet.DispatcherType;
 import java.util.EnumSet;
@@ -27,6 +29,12 @@ public class JettyRun {
         ServletContextHandler handler = new ServletContextHandler();
         final UserDao userDao = new UserJdbcDao();
         final LikedDao likedDao = new LikedJdbcDao();
+
+        UserDao_v userDao_hikari = new UserJdbcHikariDao();
+//        System.out.println("now creating a test user: roman@gmail.com");
+//        userDao_hikari.create("roman@gmail.com", "1", "test_name", 20, "test_url_photo");
+//        System.out.println("getUserById:  22" + userDao_hikari.retrieveById(22));
+
         TemplateEngine templateEngine = new TemplateEngine();
 
         SessionHandler sessionHandler = new SessionHandler();
@@ -37,9 +45,9 @@ public class JettyRun {
         handler.addFilter(new FilterHolder(new ViewReqDataFilter()), "/logout",  EnumSet.of(DispatcherType.REQUEST));
         handler.addFilter(new FilterHolder(new LoginFilter(templateEngine)), "/*", EnumSet.of(DispatcherType.REQUEST));
 
-        handler.addServlet(new ServletHolder(new LoginServlet(userDao, templateEngine)), "/login");
+        handler.addServlet(new ServletHolder(new LoginServlet(userDao, userDao_hikari, templateEngine)), "/login");
         handler.addServlet(new ServletHolder(new MessageServlet(templateEngine)), "/messages");
-        handler.addServlet(new ServletHolder(new UsersServlet(userDao,likedDao,templateEngine)), "/users");
+        handler.addServlet(new ServletHolder(new UsersServlet(userDao, userDao_hikari, likedDao, templateEngine)), "/users");
         handler.addServlet(new ServletHolder(new LikedServlet(userDao,likedDao,templateEngine)),"/liked");
         handler.addServlet(new ServletHolder(new LogOutServlet(templateEngine)), "/logout");
         handler.addServlet(new ServletHolder(new RedirectServlet()), "/*");
@@ -47,5 +55,6 @@ public class JettyRun {
         server.setHandler(handler);
         server.start();
         server.join();
+
     }
 }

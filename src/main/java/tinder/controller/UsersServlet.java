@@ -3,6 +3,7 @@ package tinder.controller;
 import tinder.dao.LikedDao;
 import tinder.dao.User;
 import tinder.dao.UserDao;
+import tinder.v_dao.UserDao_v;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
@@ -16,11 +17,13 @@ import java.util.stream.Stream;
 public class UsersServlet extends HttpServlet {
     private final TemplateEngine templateEngine;
     private final UserDao userDao;
+    private final UserDao_v userDao_hikari;
     private final LikedDao likedDao;
     private int Count = 1;
 
-    public UsersServlet(UserDao userDao, LikedDao likedDao, TemplateEngine templateEngine) {
+    public UsersServlet(UserDao userDao, UserDao_v userDao_hikari, LikedDao likedDao, TemplateEngine templateEngine) {
         this.userDao = userDao;
+        this.userDao_hikari = userDao_hikari;
         this.likedDao = likedDao;
         this.templateEngine = templateEngine;
     }
@@ -39,14 +42,10 @@ public class UsersServlet extends HttpServlet {
         userDao.update(userSession);
 
         HashMap<String, Object> data = new HashMap<>();
-        if (session != null) {
             User user = userDao.read((long) Count);
             data.put("user", user);
             data.put("Count", Count);
             templateEngine.render("users.ftl", data, resp);
-        } else {
-            templateEngine.render("login.ftl", data, resp);
-        }
     }
 
     @Override

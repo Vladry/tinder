@@ -2,6 +2,7 @@ package tinder.controller;
 
 import tinder.dao.User;
 import tinder.dao.UserDao;
+import tinder.v_dao.UserDao_v;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
@@ -10,10 +11,12 @@ import java.util.HashMap;
 
 public class LoginServlet extends HttpServlet {
     UserDao userDao;
+    UserDao_v userDao_hikari;
     TemplateEngine templateEngine;
 
-    public LoginServlet(UserDao userDao, TemplateEngine templateEngine) {
+    public LoginServlet(UserDao userDao, UserDao_v userDao_hikari, TemplateEngine templateEngine) {
         this.userDao = userDao;
+        this.userDao_hikari = userDao_hikari;
         this.templateEngine = templateEngine;
     }
 
@@ -39,7 +42,8 @@ public class LoginServlet extends HttpServlet {
         System.out.println("going to check user in userDao()");
         User user = null;
         try {
-            user = userDao.findByLoginPass(email, password);
+//            user = userDao.findByLoginPass(email, password);
+            user = userDao_hikari.retrieveByEmailPassword(email, password);
         } catch (Exception e) {
             System.out.println("error accessing DATABASE at getting login user");
         }
