@@ -1,8 +1,8 @@
 package tinder.controller;
 
-import tinder.dao.LikedDao;
+import tinder.controller.TemplateEngine;
 import tinder.dao.User;
-import tinder.dao.UserDao;
+import tinder.v_dao.UserDao_v;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,20 +12,23 @@ import java.util.HashMap;
 
 public class LikedServlet extends HttpServlet {
     TemplateEngine templateEngine;
-    UserDao userDao;
-    LikedDao likedDao;
+    UserDao_v userDao_hikari;
 
-    public LikedServlet(UserDao userDao, LikedDao likedDao, TemplateEngine templateEngine) {
+    public LikedServlet(UserDao_v userDao_hikari, TemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
-        this.userDao = userDao;
-        this.likedDao = likedDao;
+        this.userDao_hikari = userDao_hikari;
     }
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
         HashMap<String, Object> data = new HashMap<>();
         HttpSession session = req.getSession(false);
-        data.put("users", likedDao.findLikedUsers((Long)session.getAttribute("userId") ) );
-        templateEngine.render("liked.ftl", data, resp);
+        if (session != null){
+            User user = (User) session.getAttribute("user");
+            data.put("user", user);
+            templateEngine.render("liked.ftl", data, resp);
+        } else {
+            templateEngine.render("login.ftl", data, resp);
+        }
     }
 }

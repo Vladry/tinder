@@ -1,10 +1,10 @@
 package tinder.controller;
 
+import tinder.controller.TemplateEngine;
 import tinder.dao.User;
 
 import javax.servlet.http.*;
 import java.util.HashMap;
-import java.util.stream.Stream;
 
 public class MessageServlet extends HttpServlet {
     private final TemplateEngine templateEngine;

@@ -10,12 +10,10 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class LoginServlet extends HttpServlet {
-    UserDao userDao;
     UserDao_v userDao_hikari;
     TemplateEngine templateEngine;
 
-    public LoginServlet(UserDao userDao, UserDao_v userDao_hikari, TemplateEngine templateEngine) {
-        this.userDao = userDao;
+    public LoginServlet(UserDao_v userDao_hikari, TemplateEngine templateEngine) {
         this.userDao_hikari = userDao_hikari;
         this.templateEngine = templateEngine;
     }
@@ -39,11 +37,11 @@ public class LoginServlet extends HttpServlet {
         HashMap<String, Object> data = new HashMap<>();
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        System.out.println("going to check user in userDao()");
+//        System.out.println("going to check user in userDao()");
         User user = null;
         try {
-//            user = userDao.findByLoginPass(email, password);
             user = userDao_hikari.retrieveByEmailPassword(email, password);
+//            System.out.println("user from DB: " + user);
         } catch (Exception e) {
             System.out.println("error accessing DATABASE at getting login user");
         }
@@ -61,10 +59,9 @@ public class LoginServlet extends HttpServlet {
             session.setMaxInactiveInterval(0);
             session.setAttribute("userId", user.getId());
             session.setAttribute("user", user);
-//            System.out.println("checking session content:  userId= " + session.getAttribute("userId"));
 
             data.put("user", user);
-            System.out.println("user  id: " + user.getName() + " has been authenticated");
+//            System.out.println("user  id: " + user.getName() + " has been authenticated");
             templateEngine.render("messages.ftl", data, resp);
         }
     }

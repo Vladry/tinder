@@ -1,80 +1,35 @@
 package tinder.controller;
 
-import tinder.dao.LikedDao;
 import tinder.dao.User;
-import tinder.dao.UserDao;
 import tinder.v_dao.UserDao_v;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
-
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.stream.Stream;
 
 public class UsersServlet extends HttpServlet {
     private final TemplateEngine templateEngine;
-    private final UserDao userDao;
-    private final UserDao_v userDao_hikari;
-    private final LikedDao likedDao;
-    private int Count = 1;
+    private int currentUser = 0;
 
-    public UsersServlet(UserDao userDao, UserDao_v userDao_hikari, LikedDao likedDao, TemplateEngine templateEngine) {
-        this.userDao = userDao;
-        this.userDao_hikari = userDao_hikari;
-        this.likedDao = likedDao;
+    public UsersServlet(UserDao_v userDao_hikari, TemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession(false);
-        User userSession = (User) session.getAttribute("user");
-
-        if((Long)session.getAttribute("userId")==Count){
-            Count++;
-        }
-        Date date = new Date();
-
-        userSession.setLoginDate(date);
-        userDao.update(userSession);
-
         HashMap<String, Object> data = new HashMap<>();
-            User user = userDao.read((long) Count);
+        HttpSession session = req.getSession(false);
+        if (session != null){
+            User user = (User) session.getAttribute("user");
             data.put("user", user);
-            data.put("Count", Count);
+            System.out.println("user to ftl: " + data.get("user"));
             templateEngine.render("users.ftl", data, resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HashMap<String, Object> data = new HashMap<>();
-
-        if (Count==userDao.findNumRaws()) {
-            resp.sendRedirect("/users");
+        } else {
+            templateEngine.render("login.ftl", data, resp);
         }
-
-        HttpSession session = req.getSession(false);
-        User userSession = (User) session.getAttribute("user");
-
-        if (likedDao.findMark((Long)session.getAttribute("userId"), userDao.read((long) Count).getId())) {
-//        if (likedDao.findMark(userSession.getId(), userDao.read((long) Count).getId())) {
-            likedDao.update((Long)session.getAttribute("userId"), userDao.read((long) Count).getId(), req.getParameter("Like") != null); //update
-//            likedDao.update(userSession.getId(), userDao.read((long) Count).getId(), req.getParameter("Like") != null); //update
-        } else{
-            likedDao.create(userSession.getId(), userDao.read((long) Count).getId(), req.getParameter("Like") != null);
-        }
-
-        Count++;
-        if(userSession.getId()==Count){
-            Count++;
-        }
-
-        User user = userDao.read((long) Count);
-        data.put("user", user);
-        data.put("Count", Count);
-        templateEngine.render("users.ftl", data, resp);
     }
 }

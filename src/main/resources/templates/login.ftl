@@ -10,7 +10,7 @@
 
     <title>Signin Template for Bootstrap</title>
 
-<#--    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="../assets/css/style.css"/>
 </head>
@@ -22,11 +22,11 @@
 </svg>
 <#--        <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">-->
         <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <h2 style="color: red"><#if message??>${message}</#if></h2>
+        <h3 style="color: red"><#if message??>${message}</#if></h3>
         <label for="inputEmail" class="sr-only">Email address</label>
-        <input name="email" type="email" id="inputEmail" class="form-control" value="roman@gmail.com" placeholder="Email address" required autofocus>
+        <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
-        <input name="password" type="password" id="inputPassword" class="form-control" value="1" placeholder="Password" required>
+        <input name="password" type="password" id="inputPassword" class="form-control" value="r" placeholder="Password" required>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
         <p class="mt-5 mb-3 text-muted">&copy; Tinder 2021</p>
     </form>
