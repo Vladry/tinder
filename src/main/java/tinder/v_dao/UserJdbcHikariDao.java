@@ -67,14 +67,14 @@ public class UserJdbcHikariDao implements UserDao_v {
         Connection connection = null;
         try {
             connection = hikariSource.getConnection();
-            PreparedStatement st = connection.prepareStatement("SELECT * from \"v_users\" " +
+            PreparedStatement st = connection.prepareStatement("SELECT * FROM \"v_users\" " +
                     "WHERE email = ? AND password = ? ");
             st.setString(1, email);
             st.setString(2, password);
             ResultSet rs = st.executeQuery();
             if (rs.isBeforeFirst()) {
                 rs.next();
-                long id = rs.getLong("id");
+                int id = rs.getInt("id");
                 String name = rs.getString("name");
                 int age = rs.getInt("age");
                 String urlPhoto = rs.getString("url_photo");
@@ -116,7 +116,7 @@ public class UserJdbcHikariDao implements UserDao_v {
                 String email = rs.getString("email");
                 String password = rs.getString("password");
                 String urlPhoto = rs.getString("url_photo");
-                return new User((long)id, email, password, name, age, urlPhoto);
+                return new User(id, email, password, name, age, urlPhoto);
 
             } else {
                 return null;

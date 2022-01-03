@@ -1,7 +1,6 @@
 package tinder.controller;
 
 import tinder.dao.User;
-import tinder.dao.UserDao;
 import tinder.v_dao.UserDao_v;
 
 import javax.servlet.ServletException;
@@ -33,7 +32,6 @@ public class LoginServlet extends HttpServlet {
         }
         System.out.println("Now in doPost of LoginServlet");
 
-
         HashMap<String, Object> data = new HashMap<>();
         String email = req.getParameter("email");
         String password = req.getParameter("password");
@@ -45,7 +43,6 @@ public class LoginServlet extends HttpServlet {
         } catch (Exception e) {
             System.out.println("error accessing DATABASE at getting login user");
         }
-
 
         if (user == null) {
             System.out.println("no such user " +

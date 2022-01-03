@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.Date;
 
 public class User {
-    private Long id;
+    private int id;
     private String name;
     private int age;
     private String email;
@@ -12,13 +12,13 @@ public class User {
     private String urlPhoto;
     private Date loginDate;
 
-    public User(Long id, String email, String password) {
+    public User(int id, String email, String password) {
         this.id = id;
         this.email = email;
         this.password = password;
     }
 
-    public User(Long id, String email, String password, String name, int age, String urlPhoto) {
+    public User(int id, String email, String password, String name, int age, String urlPhoto) {
         this(id, email, password);
         this.name = name;
         this.age = age;
@@ -41,16 +41,16 @@ public class User {
         this.urlPhoto = urlPhoto;
     }
 
-    public Long getId() {
-        return id;
+    public int getId() {
+        return this.id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -58,7 +58,7 @@ public class User {
     }
 
     public int getAge() {
-        return age;
+        return this.age;
     }
 
     public void setAge(int age) {
@@ -66,7 +66,7 @@ public class User {
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public void setEmail(String email) {
@@ -74,7 +74,7 @@ public class User {
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void setPassword(String password) {
