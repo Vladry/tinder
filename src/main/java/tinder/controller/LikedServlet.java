@@ -2,6 +2,7 @@ package tinder.controller;
 
 import tinder.controller.TemplateEngine;
 import tinder.dao.User;
+import tinder.v_dao.LikesDao_v;
 import tinder.v_dao.UserDao_v;
 
 import javax.servlet.http.HttpServlet;
@@ -13,10 +14,12 @@ import java.util.HashMap;
 public class LikedServlet extends HttpServlet {
     TemplateEngine templateEngine;
     UserDao_v userDao_hikari;
+    LikesDao_v likesDao_hikari;
 
-    public LikedServlet(UserDao_v userDao_hikari, TemplateEngine templateEngine) {
+    public LikedServlet(UserDao_v userDao_hikari, LikesDao_v likesDao_hikari, TemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
         this.userDao_hikari = userDao_hikari;
+        this.likesDao_hikari = likesDao_hikari;
     }
 
     @Override

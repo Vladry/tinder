@@ -6,6 +6,8 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import tinder.v_dao.LikesDao_v;
+import tinder.v_dao.LikesJdbcHikariDao;
 import tinder.v_dao.UserDao_v;
 import tinder.v_dao.UserJdbcHikariDao;
 
@@ -24,6 +26,7 @@ public class JettyRun {
         Server server = new Server(port);
         ServletContextHandler handler = new ServletContextHandler();
         UserDao_v userDao_hikari = new UserJdbcHikariDao();
+        LikesDao_v likesDao_hikari = new LikesJdbcHikariDao();
 //        System.out.println("now creating a test user: roman@gmail.com");
 //        userDao_hikari.create("roman@gmail.com", "1", "test_name", 20, "test_url_photo");
 //        System.out.println("getUserById:  22" + userDao_hikari.retrieveById(22));
@@ -41,8 +44,8 @@ public class JettyRun {
         handler.addServlet(new ServletHolder(new GenerateUsersServlet(userDao_hikari, templateEngine)), "/gu");
         handler.addServlet(new ServletHolder(new LoginServlet(userDao_hikari, templateEngine)), "/login");
         handler.addServlet(new ServletHolder(new MessageServlet(templateEngine)), "/messages");
-        handler.addServlet(new ServletHolder(new UsersServlet(userDao_hikari, templateEngine)), "/users");
-        handler.addServlet(new ServletHolder(new LikedServlet(userDao_hikari, templateEngine)),"/liked");
+        handler.addServlet(new ServletHolder(new UsersServlet(userDao_hikari, likesDao_hikari, templateEngine)), "/users");
+        handler.addServlet(new ServletHolder(new LikedServlet(userDao_hikari, likesDao_hikari, templateEngine)),"/liked");
         handler.addServlet(new ServletHolder(new LogOutServlet(templateEngine)), "/logout");
         handler.addServlet(new ServletHolder(new RedirectServlet()), "/*");
 
