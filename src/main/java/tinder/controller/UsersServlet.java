@@ -33,7 +33,7 @@ public class UsersServlet extends HttpServlet {
             this.rendering = false;
             return;
         }
-        System.out.println("in doGet()");
+//        System.out.println("in doGet()");
 
         session = req.getSession(false);
         String Dislike = req.getParameter("Dislike");
@@ -44,7 +44,7 @@ public class UsersServlet extends HttpServlet {
             session.setAttribute("lastLiked", 1);
         }
         currentCandidateId = (Integer) session.getAttribute("lastLiked");
-        System.out.println("currentUser from session: " + currentCandidateId);
+//        System.out.println("currentUser from session: " + currentCandidateId);
 
 
         if (this.currentCandidateId == this.loggedUserId) {
@@ -52,7 +52,7 @@ public class UsersServlet extends HttpServlet {
         }
 
         User candidate = null;
-        System.out.println("current candidate before writing like into DB: " + currentCandidateId);
+//        System.out.println("current candidate before writing like into DB: " + currentCandidateId);
         if (Dislike != null && Dislike.equals("Dislike")) {
             likesDao_hikari.processLiked(loggedUserId, currentCandidateId -1, false);
         } else if (Like != null && Like.equals("Like")) {

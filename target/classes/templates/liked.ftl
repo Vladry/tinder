@@ -19,11 +19,6 @@
             <li class="menu__item"><a class="menu__ref" href="/logout">LOGOUT</a></li>
         </menu>
 
-<#--        <#if user??><p>Ваш ID: ${user.getId()}</p></#if>-->
-<#--        <#if user??><p>Ваш email: ${user.getEmail()}</p></#if>-->
-<#--        <#if user.getName()??><p>Ваше имя: ${user.getName()}</p></#if>-->
-<#--        <#if (user.getAge() > 5) ><p>Ваш возраст: ${user.getAge()}</p></#if>-->
-<#--        <#if sessionId??><p>Ваша sessionId: ${sessionId}</p></#if>-->
     </div>
 </head>
 <body>
@@ -35,84 +30,29 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">Liked People List</h3>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body" style="margin-top: 100px;">
                     <div class="table-container">
                         <table class="table-users table" border="0">
                             <tbody>
-                            <tr>
-                                <td width="10">
-                                    <div class="avatar-img">
-                                        <img class="img-circle"
-                                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxhcCYW4QDWMOjOuUTxOd50KcJvK-rop9qE9zRltSbVS_bO-cfWA"/>  
-                                    </div>
-
-                                </td>
-                                <td class="align-middle">
-                                    Herbert Hoover
-                                </td>
-                                <td class="align-middle">
-                                    Builder Sales Agent
-                                </td>
-                                <td class="align-middle">
-                                    Last Login: 6/10/2017<br><small class="text-muted">5 days ago</small>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td width="10">
-                                    <div class="avatar-img">
-                                        <img class="img-circle"
-                                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxhcCYW4QDWMOjOuUTxOd50KcJvK-rop9qE9zRltSbVS_bO-cfWA"/>  
-                                    </div>
-
-                                </td>
-                                <td class="align-middle">
-                                    Herbert Hoover
-                                </td>
-                                <td class="align-middle">
-                                    Builder Sales Agent
-                                </td>
-                                <td class="align-middle">
-                                    Last Login: 6/10/2017<br><small class="text-muted">5 days ago</small>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td width="10">
-                                    <div class="avatar-img">
-                                        <img class="img-circle"
-                                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxhcCYW4QDWMOjOuUTxOd50KcJvK-rop9qE9zRltSbVS_bO-cfWA"/>  
-                                    </div>
-
-                                </td>
-                                <td class="align-middle">
-                                    Herbert Hoover
-                                </td>
-                                <td class="align-middle">
-                                    Builder Sales Agent
-                                </td>
-                                <td class="align-middle">
-                                    Last Login: 6/10/2017<br><small class="text-muted">5 days ago</small>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td width="10">
-                                    <div class="avatar-img">
-                                        <img class="img-circle"
-                                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxhcCYW4QDWMOjOuUTxOd50KcJvK-rop9qE9zRltSbVS_bO-cfWA"/>  
-                                    </div>
-
-                                </td>
-                                <td class="align-middle">
-                                    Herbert Hoover
-                                </td>
-                                <td class="align-middle">
-                                    Builder Sales Agent
-                                </td>
-                                <td class="align-middle">
-                                    Last Login: 6/10/2017<br><small class="text-muted">5 days ago</small>
-                                </td>
-                            </tr>
+                            <#list contactList as contact>
+                                <tr>
+                                    <td class="align-middle">
+                                        <a href="/messages/${contact.getId()}">message:&nbsp&nbsp</a>
+                                    <#if contact.getName()??>${contact.getName()}</#if></td>
+                                    <td  class="align-middle">age: <#if contact.getAge()??>${contact.getAge()}</#if></td>
+                                    <td  class="align-middle"><div  class="avatar-img">
+                                            <img class="img-circle" alt="avatar" src="${contact.getUrlPhoto()}" /></div>
+                                    </td>
+                                    <td class="align-middle">
+                                        Last Login:
+                                        <#if contact.getLoginDateTimeString()??>${contact.getLoginDateTimeString()}</#if>
+                                        <br><small class="text-muted">?? days ago</small>
+                                    </td>
+                                </tr>
+                            </#list>
                             </tbody>
                         </table>
+
                     </div>
                 </div>
             </div>

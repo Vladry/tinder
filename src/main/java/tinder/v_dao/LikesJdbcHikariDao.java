@@ -1,6 +1,7 @@
 package tinder.v_dao;
 
 import com.zaxxer.hikari.HikariDataSource;
+import tinder.dao.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -51,6 +52,46 @@ public class LikesJdbcHikariDao implements LikesDao_v {
 
     @Override
     public ArrayList<Integer> retrieveAllLiked(int loggedInId) {
-        return null;
+        ArrayList<Integer> idList = new ArrayList<>();
+        try (Connection connection = hikariSource.getConnection()) {
+            PreparedStatement pst = connection.prepareStatement(
+                    "SELECT whom_id from \"v_liked\" WHERE who_id = ? AND isLike = true;");
+            pst.setInt(1, loggedInId);
+            ResultSet res = pst.executeQuery();
+            while (res.next()) {
+                idList.add(res.getInt("whom_id"));
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return idList;
     }
+
+
+    public ArrayList<User> retrieveLikedUsers(int loggedInId) {
+        ArrayList<User> contactList = new ArrayList<>();
+        try (Connection connection = hikariSource.getConnection()) {
+            PreparedStatement pst = connection.prepareStatement(
+                    "SELECT * FROM \"v_users\" WHERE id IN" +
+                            "(SELECT whom_id from \"v_liked\" WHERE who_id = ? AND isLike = true) ");
+            pst.setInt(1, loggedInId);
+            ResultSet res = pst.executeQuery();
+            while (res.next()) {
+                User contact = new User(
+                        res.getInt("id"),
+                        res.getString("name"),
+                        res.getInt("age"),
+                        res.getString("url_photo"),
+                        res.getTimestamp("last_visit_date_time")
+                );
+                contactList.add(contact);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return contactList;
+    }
+
 }

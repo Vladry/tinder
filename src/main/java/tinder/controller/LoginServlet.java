@@ -51,8 +51,8 @@ public class LoginServlet extends HttpServlet {
             templateEngine.render("login.ftl", data, resp);
         } else {
             HttpSession session = req.getSession();
-            System.out.println("user identified!");
-            System.out.println("user " + user.getName() + " aged " + user.getAge() + " has logged in");
+//            System.out.println("user identified!");
+//            System.out.println("user " + user.getName() + " aged " + user.getAge() + " has logged in");
             session.setMaxInactiveInterval(0);
             session.setAttribute("userId", user.getId());
             session.setAttribute("user", user);
