@@ -56,8 +56,10 @@
                         <li class="send-msg float-right mb-2">
                             <h6><#if user?? && user.getName()??>${user.getName()}</#if></h6>
                             <h6><#if user?? && user.getId()??>id:${user.getId()}</#if></h6>
-                            <#list senderMessages as message><p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">
+                            <#list senderMessages as message>
+                                <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">
                             <#if message??>${message.getContent()}</#if>
+                                <span class="receive-msg-time">Date: <#if message?? && message.getDateTimeString()??>${message.getDateTimeString()}</#if></span>
                             </p></#list>
                         </li>
 
@@ -74,6 +76,7 @@
                                 <#list receiverMessages as message>
                                     <p class="bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded">
                                     <#if message??>${message.getContent()}</#if>
+                                    <span class="receive-msg-time">Date: <#if  message?? && message.getDateTimeString()??>${message.getDateTimeString()}</#if></span>
                                     </p></#list>
 
                                 <span class="receive-msg-time">ketty, Jan 25, 6:20 PM</span>
