@@ -48,10 +48,8 @@ public class LoginFilter implements Filter {
 
         HttpSession session = req.getSession(false);
         if (session != null) {
-//            System.out.println("Сессия обнаружена в LoginFilter");
             req.getRequestDispatcher(requestURI).forward(req, resp);
         } else {
-//            System.out.println("Сессия не обнаружена в LoginFilter");
             req.getRequestDispatcher("/login").forward(req, resp);
         }
         chain.doFilter(request, response);

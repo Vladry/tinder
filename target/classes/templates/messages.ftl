@@ -26,7 +26,8 @@
                 <div class="row header-one text-white p-1">
                     <div class="col-md-6 name pl-2">
                         <i class="fa fa-comment"></i>
-                        <h6 class="ml-1 mb-0">Ketty Peris</h6>
+                        <h6 class="ml-1 mb-0"><#if contact?? && contact.getName()??>${contact.getName()} <#else>error: wrong endpoint entered</#if></h6>
+                        <h6 class="ml-1 mb-0"><#if contact?? && contact.getId()??>${contact.getId()}</#if></h6>
                     </div>
                     <div class="col-md-6 options text-right pr-0">
                         <i class="fa fa-window-minimize hide-chat-box hover text-center pt-1"></i>
@@ -49,72 +50,40 @@
             <div class="chat-content">
                 <div class="col-md-12 chats pt-3 pl-2 pr-3 pb-3">
                     <ul class="p-0">
+
+
+
                         <li class="send-msg float-right mb-2">
-                            <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">
-                                Hii
-                            </p>
+                            <h6><#if user?? && user.getName()??>${user.getName()}</#if></h6>
+                            <h6><#if user?? && user.getId()??>${user.getId()}</#if></h6>
+                            <#list senderMessages as message><p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">
+                            <#if message??>${message.getContent()}</#if>
+                            </p></#list>
                         </li>
+
+
                         <li class="receive-msg float-left mb-2">
+
                             <div class="sender-img">
-                                <img src="http://nicesnippets.com/demo/image1.jpg" class="float-left">
+                                <h6><#if contact?? && contact.getName()??></#if>${contact.getName()}</h6>
+                                <img src="${contact.getUrlPhoto()}" class="float-left" alt="avatar">
                             </div>
+
                             <div class="receive-msg-desc float-left ml-2">
-                                <p class="bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded">
-                                    hiii <br>
-                                    How are you ?<br>
-                                </p>
+<#--                                <h6><#if contact?? && contact.getName()??>${contact.getName()}</#if></h6>-->
+                                <#list receiverMessages as message>
+                                    <p class="bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded">
+                                    <#if message??>${message.getContent()}</#if>
+                                    </p></#list>
+
                                 <span class="receive-msg-time">ketty, Jan 25, 6:20 PM</span>
                             </div>
                         </li>
-                        <li class="send-msg float-right mb-2">
-                            <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">
-                                nice <br>
-                                Are you fine ?
-                            </p>
-                        </li>
-                        <li class="receive-msg float-left mb-2">
-                            <div class="sender-img">
-                                <img src="http://nicesnippets.com/demo/image1.jpg" class="float-left">
-                            </div>
-                            <div class="receive-msg-desc float-left ml-2">
-                                <p class="bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded">
-                                    Yes always
-                                </p>
-                            </div>
-                        </li>
-                        <li class="send-msg float-right mb-2">
-                            <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">
-                                <a href="https://nicesnippets.com/" class="text-dark rounded" target="_blank"><u>https://nicesnippets.com/</u></a>
-                            </p>
-                        </li>
-                        <li class="send-msg float-right mb-2">
-                            <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">
-                                Byy
-                            </p>
-                            <span class="send-msg-time">1 min</span>
-                        </li>
-                        <li class="send-msg float-right mb-2">
-                            <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">
-                                <a href="https://nicesnippets.com/" class="text-dark rounded" target="_blank"><u>https://nicesnippets.com/</u></a>
-                            </p>
-                        </li>
-                        <li class="send-msg float-right mb-2">
-                            <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">
-                                Byy
-                            </p>
-                            <span class="send-msg-time">1 min</span>
-                        </li>
-                        <li class="send-msg float-right mb-2">
-                            <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">
-                                <a href="https://nicesnippets.com/" class="text-dark rounded" target="_blank"><u>https://nicesnippets.com/</u></a>
-                            </p>
-                        </li>
-                        <li class="send-msg float-right mb-2">
-                            <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">
-                                Byy
-                            </p>
-                            <span class="send-msg-time">1 min</span>
-                        </li>
+
+
+
+
+
                     </ul>
                 </div>
                 <div class="col-md-12 p-2 msg-box border border-primary">
@@ -123,7 +92,10 @@
                             <i class="fa fa-smile-o"></i>
                         </div>
                         <div class="col-md-7 pl-0">
-                            <input type="text" class="border-0" placeholder=" Send message" />
+                            <form action="/messages/${contact.getId()}" method="POST">
+                                <label> input msg: <input type="text" name="message" class="border-0" placeholder="write a message here"/></label>
+                                <button type="submit">send message</button>
+                            </form>
                         </div>
                         <div class="col-md-3 text-right options-right">
                             <i class="fa fa-picture-o mr-2"></i>

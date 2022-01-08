@@ -17,6 +17,7 @@ public class UsersServlet extends HttpServlet {
     private final UserDao_v userDao_hikari;
     private LikesDao_v likesDao_hikari;
     private int loggedUserId;
+    private User loggedUser;
     private int currentCandidateId;
     private boolean rendering = false;
     private HttpSession session;
@@ -33,50 +34,57 @@ public class UsersServlet extends HttpServlet {
             this.rendering = false;
             return;
         }
-//        System.out.println("in doGet()");
-
         session = req.getSession(false);
         String Dislike = req.getParameter("Dislike");
         String Like = req.getParameter("Like");
-        User loggedInUserId = (User) session.getAttribute("user");
-        this.loggedUserId = loggedInUserId.getId();
+        loggedUser = (User) session.getAttribute("user");
+        this.loggedUserId = loggedUser.getId();
         if (session.getAttribute("lastLiked") == null) {
             session.setAttribute("lastLiked", 1);
         }
         currentCandidateId = (Integer) session.getAttribute("lastLiked");
-//        System.out.println("currentUser from session: " + currentCandidateId);
-
-
         if (this.currentCandidateId == this.loggedUserId) {
             this.currentCandidateId++;
         }
 
         User candidate = null;
-//        System.out.println("current candidate before writing like into DB: " + currentCandidateId);
-        if (Dislike != null && Dislike.equals("Dislike")) {
-            likesDao_hikari.processLiked(loggedUserId, currentCandidateId -1, false);
-        } else if (Like != null && Like.equals("Like")) {
-            likesDao_hikari.processLiked(loggedUserId, currentCandidateId -1, true);
+        candidate = getCurrentCandidate();
+        if (Dislike == null && Like == null) {
+            renderUsersPage(candidate, resp);
         }
 
-        candidate = getNextValidCandidate();
-        renderUsersPage(candidate, resp);
-        this.currentCandidateId++;
-        session.setAttribute("lastLiked", this.currentCandidateId);
+
+        if (Dislike != null && Dislike.equals("Dislike")) {
+            likesDao_hikari.processLiked(loggedUserId, currentCandidateId, false);
+            renderNext(resp);
+        } else if (Like != null && Like.equals("Like")) {
+            likesDao_hikari.processLiked(loggedUserId, currentCandidateId, true);
+            renderNext(resp);
+        }
     }
 
-    private void renderUsersPage(User user, HttpServletResponse resp) {
+
+    private void renderUsersPage(User candidate, HttpServletResponse resp) {
         HashMap<String, Object> data = new HashMap<>();
-        data.put("user", user);
+        data.put("loggedUser", loggedUser);
+        data.put("candidate", candidate);
         templateEngine.render("users.ftl", data, resp);
         this.rendering = true;
     }
 
-    private User getNextValidCandidate() {
+    private void renderNext(HttpServletResponse resp){
+        this.currentCandidateId++;
+        session.setAttribute("lastLiked", this.currentCandidateId);
+        User candidate = null;
+        candidate = getCurrentCandidate();
+        renderUsersPage(candidate, resp);
+    }
+
+    private User getCurrentCandidate() {
         //метод ищет в базе ближайшего юзера с заполненным полем "name" на случай фрагментированной базы.
         // либо возвращает счетчик id юзеров в исходное положение, если больше пользователей не нашлось.
         User user = null;
-        int counter = 40;
+        int counter = 10;
         while (user == null || user.getName().isEmpty()) {
             if (--counter <= 0) break;
             user = userDao_hikari.retrieveById(this.currentCandidateId);

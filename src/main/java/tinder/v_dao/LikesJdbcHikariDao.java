@@ -34,11 +34,9 @@ public class LikesJdbcHikariDao implements LikesDao_v {
             if (res.isBeforeFirst()) {
                 createReq = connection.prepareStatement(
                         "UPDATE \"v_liked\" SET islike = ? WHERE who_id = ? AND whom_id = ?;");
-                System.out.println("изменили like");
             } else {
                 createReq = connection.prepareStatement(
                         "INSERT INTO \"v_liked\" (isLike, who_id, whom_id) VALUES(?, ?, ?);");
-                System.out.println("создали новый like");
             }
             createReq.setBoolean(1, verdict);
             createReq.setInt(2, loggedInId);
