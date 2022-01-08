@@ -74,6 +74,9 @@ public class UsersServlet extends HttpServlet {
 
     private void renderNext(HttpServletResponse resp){
         this.currentCandidateId++;
+        if (this.currentCandidateId == this.loggedUserId) {
+            this.currentCandidateId++;
+        }
         session.setAttribute("lastLiked", this.currentCandidateId);
         User candidate = null;
         candidate = getCurrentCandidate();

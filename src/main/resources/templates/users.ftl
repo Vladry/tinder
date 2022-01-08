@@ -16,7 +16,7 @@
     <li class="menu__item"><a class="menu__ref" href="/messages">MESSAGES</a></li>
     <li class="menu__item"><a class="menu__ref" href="/liked">LIKED</a></li>
     <li class="menu__item"><a class="menu__ref" href="/logout">LOGOUT</a></li>
-    <li>loggedUser: ${loggedUser.getId()} ${loggedUser.getName()}</li>
+    <li>loggedUser id:${loggedUser.getId()} ${loggedUser.getName()}</li>
 </menu>
 
 <div class="col-4 offset-1">

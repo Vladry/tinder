@@ -27,7 +27,7 @@
                     <div class="col-md-6 name pl-2">
                         <i class="fa fa-comment"></i>
                         <h6 class="ml-1 mb-0"><#if contact?? && contact.getName()??>${contact.getName()} <#else>error: wrong endpoint entered</#if></h6>
-                        <h6 class="ml-1 mb-0"><#if contact?? && contact.getId()??>${contact.getId()}</#if></h6>
+                        <h6 class="ml-1 mb-0"><#if contact?? && contact.getId()??>id:${contact.getId()}</#if></h6>
                     </div>
                     <div class="col-md-6 options text-right pr-0">
                         <i class="fa fa-window-minimize hide-chat-box hover text-center pt-1"></i>
@@ -55,7 +55,7 @@
 
                         <li class="send-msg float-right mb-2">
                             <h6><#if user?? && user.getName()??>${user.getName()}</#if></h6>
-                            <h6><#if user?? && user.getId()??>${user.getId()}</#if></h6>
+                            <h6><#if user?? && user.getId()??>id:${user.getId()}</#if></h6>
                             <#list senderMessages as message><p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">
                             <#if message??>${message.getContent()}</#if>
                             </p></#list>

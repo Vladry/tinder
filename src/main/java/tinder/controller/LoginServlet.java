@@ -55,6 +55,7 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("lastLiked" , 1);
             }
             firstCandidateId = (Integer) session.getAttribute("lastLiked");
+            if (firstCandidateId == user.getId()) {firstCandidateId++;}
             User candidate = getFirstCandidate();
             session.setAttribute("lastLiked", firstCandidateId);
             data.put("loggedUser", user);
