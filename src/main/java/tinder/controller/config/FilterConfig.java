@@ -1,7 +1,8 @@
-package tinder.controller;
+package tinder.controller.config;
+
+import tinder.controller.filters.AbstractFilter;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
 //@WebFilter(filterName = "Filter",

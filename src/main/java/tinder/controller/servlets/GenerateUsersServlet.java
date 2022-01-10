@@ -1,5 +1,6 @@
-package tinder.controller;
+package tinder.controller.servlets;
 
+import tinder.controller.unils.TemplateEngine;
 import tinder.v_dao.UserDao_v;
 
 import javax.servlet.http.HttpServlet;

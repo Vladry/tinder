@@ -1,4 +1,4 @@
-package tinder.controller;
+package tinder.controller.servlets;
 
 import tinder.dao.User;
 

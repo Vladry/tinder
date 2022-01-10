@@ -1,6 +1,6 @@
-package tinder.controller;
+package tinder.controller.servlets;
 
-import tinder.controller.TemplateEngine;
+import tinder.controller.unils.TemplateEngine;
 
 import javax.servlet.http.*;
 import java.util.HashMap;

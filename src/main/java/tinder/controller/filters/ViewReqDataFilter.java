@@ -1,4 +1,4 @@
-package tinder.controller;
+package tinder.controller.filters;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

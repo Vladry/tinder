@@ -1,11 +1,15 @@
 package tinder;
 
 import org.eclipse.jetty.servlet.FilterHolder;
-import tinder.controller.*;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import tinder.controller.filters.FileServlet;
+import tinder.controller.filters.LoginFilter;
+import tinder.controller.filters.ViewReqDataFilter;
+import tinder.controller.servlets.*;
+import tinder.controller.unils.TemplateEngine;
 import tinder.v_dao.*;
 
 import javax.servlet.DispatcherType;
