@@ -43,10 +43,7 @@ public class UsersServlet extends HttpServlet {
             session.setAttribute("lastLiked", 1);
         }
         currentCandidateId = (Integer) session.getAttribute("lastLiked");
-        if (this.currentCandidateId == this.loggedUserId) {
-            this.currentCandidateId++;
-        }
-
+        skipLoggedUser();
         User candidate = null;
         candidate = getCurrentCandidate();
         if (Dislike == null && Like == null) {
@@ -77,15 +74,15 @@ public class UsersServlet extends HttpServlet {
         if (this.currentCandidateId == this.loggedUserId) {
             this.currentCandidateId++;
         }
-        session.setAttribute("lastLiked", this.currentCandidateId);
         User candidate = null;
         candidate = getCurrentCandidate();
+        session.setAttribute("lastLiked", this.currentCandidateId);
         renderUsersPage(candidate, resp);
     }
 
     private User getCurrentCandidate() {
-        //метод ищет в базе ближайшего юзера с заполненным полем "name" на случай фрагментированной базы.
-        // либо возвращает счетчик id юзеров в исходное положение, если больше пользователей не нашлось.
+        //метод ищет в базе ближайшего юзера с заполненным полем "name" на случай фрагментированной или не полной базы.
+        // либо возвращает счетчик id юзеров в исходное положение, если бижайшие counter-пользователей не нашлись.
         User user = null;
         int counter = 10;
         while (user == null || user.getName().isEmpty()) {
@@ -97,9 +94,14 @@ public class UsersServlet extends HttpServlet {
         }
         if (user == null) {
             this.currentCandidateId = 1;
+            skipLoggedUser();
             user = userDao_hikari.retrieveById(this.currentCandidateId);
         }
 
         return user;
+    }
+
+    public void skipLoggedUser(){
+        if (currentCandidateId == loggedUserId) {currentCandidateId++;}
     }
 }

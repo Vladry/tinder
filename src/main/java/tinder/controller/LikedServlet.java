@@ -31,6 +31,7 @@ public class LikedServlet extends HttpServlet {
         User loggedUser = (User) session.getAttribute("user");
         loggedUserId = loggedUser.getId();
         contactList = likesDao_hikari.retrieveLikedUsers(loggedUserId);
+
             data.put("user", loggedUser);
             data.put("contactList", contactList);
             templateEngine.render("liked.ftl", data, resp);
