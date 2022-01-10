@@ -1,10 +1,10 @@
 package tinder.controller.servlets;
 
 import tinder.controller.unils.TemplateEngine;
-import tinder.dao.User;
-import tinder.v_dao.Message;
-import tinder.v_dao.MessageDao_v;
-import tinder.v_dao.UserDao_v;
+import tinder.domain.User;
+import tinder.domain.Message;
+import tinder.dao.MessageDao_v;
+import tinder.dao.UserDao_v;
 
 import javax.servlet.http.*;
 import java.util.ArrayList;

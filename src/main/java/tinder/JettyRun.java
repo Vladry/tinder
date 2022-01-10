@@ -10,7 +10,7 @@ import tinder.controller.filters.LoginFilter;
 import tinder.controller.filters.ViewReqDataFilter;
 import tinder.controller.servlets.*;
 import tinder.controller.unils.TemplateEngine;
-import tinder.v_dao.*;
+import tinder.dao.*;
 
 import javax.servlet.DispatcherType;
 import java.util.EnumSet;

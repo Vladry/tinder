@@ -1,8 +1,8 @@
 package tinder.controller.servlets;
 
 import tinder.controller.unils.TemplateEngine;
-import tinder.dao.User;
-import tinder.v_dao.UserDao_v;
+import tinder.domain.User;
+import tinder.dao.UserDao_v;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
