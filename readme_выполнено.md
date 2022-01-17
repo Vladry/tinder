@@ -1,1 +1,4 @@
-33. Развернуть готовое приложение на [Heroku](https://heroku.com/login)
+ссылка на задеплоеный проект:
+
+https://tinder-write.herokuapp.com/
+
