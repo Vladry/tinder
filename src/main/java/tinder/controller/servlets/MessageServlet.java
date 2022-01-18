@@ -16,8 +16,6 @@ public class MessageServlet extends HttpServlet {
     private final MessageDao_v msgDao_hikari;
     private User loggedUser = null;
     private User contact = null;
-//    private ArrayList<Message> senderMessages = null;
-//    private ArrayList<Message> receiverMessages = new ArrayList<>();
     private boolean rendering;
 
     public MessageServlet(UserDao_v userDao_hikari, MessageDao_v msgDao_hikari, TemplateEngine templateEngine) {
@@ -31,6 +29,18 @@ public class MessageServlet extends HttpServlet {
         doGet(req, res);
     };
 
+
+    private int filterOffContactId(HttpServletRequest req){
+        String rawId = "1";
+        if (req.getRequestURI().split("/").length >= 3
+                && req.getRequestURI().split("/")[2] != null)
+        {
+            rawId = req.getRequestURI().split("/")[2];
+            System.out.println("rawId: " + rawId);
+        }
+        return Integer.parseInt(rawId);
+    }
+
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
         if (rendering) {
@@ -40,13 +50,11 @@ public class MessageServlet extends HttpServlet {
         HashMap<String, Object> data = new HashMap<>();
         HttpSession session = req.getSession(false);
 
-        if (req.getRequestURI().split("/").length >= 3) {
-            int contactId = Integer.parseInt(req.getRequestURI().split("/")[2]);
-            contact = userDao_hikari.retrieveById(contactId);
-        }
+        contact = userDao_hikari.retrieveById(filterOffContactId(req));
+
         loggedUser = (User) session.getAttribute("user");
-        ArrayList<Message> senderMessages = msgDao_hikari.retrieveAllMessages(loggedUser.getId(), contact.getId() );
-        ArrayList<Message> receiverMessages = msgDao_hikari.retrieveAllMessages(contact.getId(), loggedUser.getId());
+        ArrayList<Message> senderMessages = msgDao_hikari.retrieveAllMessages(loggedUser.getId(), getContactId(contact) );
+        ArrayList<Message> receiverMessages = msgDao_hikari.retrieveAllMessages(getContactId(contact), loggedUser.getId());
         System.out.println("senderMessages: " + senderMessages);
         System.out.println("receiverMessages: " + receiverMessages);
         if (senderMessages == receiverMessages) System.out.println("senderMessages = receiverMessages");
@@ -54,7 +62,7 @@ public class MessageServlet extends HttpServlet {
         String newMsgStr;
         if (req.getParameter("message") != null) {
             newMsgStr = req.getParameter("message");
-            newMessage = new Message(loggedUser.getId(), contact.getId(), newMsgStr);
+            newMessage = new Message(loggedUser.getId(), getContactId(contact), newMsgStr);
             senderMessages.add(newMessage);
             msgDao_hikari.createMessage(newMessage);
         }
@@ -69,6 +77,10 @@ public class MessageServlet extends HttpServlet {
         templateEngine.render("messages.ftl", data, resp);
         data = null;
 
+    }
+
+    private int getContactId(User contact){
+        return contact == null? 0 : contact.getId();
     }
 
 }
